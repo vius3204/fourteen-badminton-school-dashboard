@@ -25,8 +25,6 @@
         }
         .toast.show { transform: translateY(0); opacity: 1; }
         
-        .keterangan-col { min-width: 250px; max-width: 350px; white-space: normal !important; word-break: break-word; }
-        
         .logo-img {
             object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
@@ -133,7 +131,8 @@
             <button onclick="showLoginModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-md text-xs font-bold transition-colors shrink-0 ml-2">LOGIN</button>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
+        <!-- Tambahan padding bawah (pb-32) agar scroll leluasa sampai bawah di HP -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32">
             
             <!-- OVERVIEW -->
             <div id="view-overview" class="view-section space-y-6">
@@ -144,7 +143,7 @@
                             <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-xs font-semibold">
                                 <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Papan Pengumuman & Informasi Eskul
                             </div>
-                            <h1 class="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
+                            <h1 class="text-xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
                                 <i class="fas fa-bullhorn text-amber-400"></i> <span id="boardTitleDisplay">Jadwal & Pengumuman Resmi FBC</span>
                             </h1>
                         </div>
@@ -159,7 +158,6 @@
                         Selamat datang di portal resmi Fourteen Badminton Club. Silakan cek jadwal latihan rutin dan informasi penting lainnya melalui papan pengumuman ini.
                     </div>
 
-                    <!-- Tombol Edit Papan Informasi (Hanya Muncul Jika Login) -->
                     <div id="boardEditContainer" class="z-10 pt-2 border-t border-white/10 flex justify-end hide">
                         <button onclick="openBoardEditModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow transition-colors flex items-center gap-2">
                             <i class="fas fa-pen-to-square"></i> Edit Papan Informasi
@@ -169,41 +167,41 @@
                     <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
                 </div>
 
-                <!-- Kartu Statistik Keuangan & Anggota Lengkap -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-wallet"></i></div>
-                        <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Kas Bersih</p>
-                            <p class="text-base md:text-lg font-bold text-slate-800" id="ov-saldo">Rp 0</p>
+                <!-- Kartu Statistik (Grid Responsif 5 Kolom tanpa keluar range) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg md:text-xl shrink-0"><i class="fas fa-wallet"></i></div>
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5 truncate">Total Kas Bersih</p>
+                            <p class="text-sm sm:text-base md:text-lg font-bold text-slate-800 truncate" id="ov-saldo">Rp 0</p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-arrow-trend-up"></i></div>
-                        <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Pemasukan</p>
-                            <p class="text-base md:text-lg font-bold text-emerald-600" id="ov-masuk">Rp 0</p>
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg md:text-xl shrink-0"><i class="fas fa-arrow-trend-up"></i></div>
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5 truncate">Total Pemasukan</p>
+                            <p class="text-sm sm:text-base md:text-lg font-bold text-emerald-600 truncate" id="ov-masuk">Rp 0</p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-arrow-trend-down"></i></div>
-                        <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Pengeluaran</p>
-                            <p class="text-base md:text-lg font-bold text-rose-600" id="ov-keluar">Rp 0</p>
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg md:text-xl shrink-0"><i class="fas fa-arrow-trend-down"></i></div>
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5 truncate">Total Pengeluaran</p>
+                            <p class="text-sm sm:text-base md:text-lg font-bold text-rose-600 truncate" id="ov-keluar">Rp 0</p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-users"></i></div>
-                        <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Anggota</p>
-                            <p class="text-base md:text-lg font-bold text-slate-800"><span id="ov-anggota">0</span> <span class="text-xs font-normal text-slate-400">Siswa</span></p>
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg md:text-xl shrink-0"><i class="fas fa-users"></i></div>
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5 truncate">Total Anggota</p>
+                            <p class="text-sm sm:text-base md:text-lg font-bold text-slate-800 truncate"><span id="ov-anggota">0</span> <span class="text-xs font-normal text-slate-400">Siswa</span></p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-calendar-check"></i></div>
-                        <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Sesi Latihan</p>
-                            <p class="text-base md:text-lg font-bold text-slate-800"><span id="ov-presensi">0</span> <span class="text-xs font-normal text-slate-400">Pertemuan</span></p>
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 sm:col-span-2 lg:col-span-1">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg md:text-xl shrink-0"><i class="fas fa-calendar-check"></i></div>
+                        <div class="overflow-hidden">
+                            <p class="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5 truncate">Total Sesi Latihan</p>
+                            <p class="text-sm sm:text-base md:text-lg font-bold text-slate-800 truncate"><span id="ov-presensi">0</span> <span class="text-xs font-normal text-slate-400">Pertemuan</span></p>
                         </div>
                     </div>
                 </div>
@@ -265,59 +263,38 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-bold text-slate-800">Daftar Hadir Latihan</h1>
-                        <p class="text-slate-500 text-xs md:text-sm">Pencatatan presensi siswa per sesi pertemuan beserta dokumen bukti fisik.</p>
+                        <p class="text-slate-500 text-xs md:text-sm">Riwayat pertemuan dan presensi latihan anggota.</p>
                     </div>
-                    <button onclick="exportPresensiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
-                        <i class="fas fa-file-csv text-base"></i> Ekspor Riwayat Presensi CSV
-                    </button>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button onclick="exportPresensiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                            <i class="fas fa-file-csv text-base"></i> Ekspor CSV
+                        </button>
+                        <!-- Tombol Tambah Sesi Pertemuan Sesuai Permintaan -->
+                        <button onclick="openPresensiModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors role-pengurus-only">
+                            <i class="fas fa-plus text-base"></i> Tambah Sesi Pertemuan
+                        </button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-1 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 role-pengurus-only">
-                        <h3 class="text-base font-bold text-slate-800 mb-3 pb-2 border-b">Catat Sesi Pertemuan</h3>
-                        <form id="formPresensi" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Pertemuan</label>
-                                <input type="date" id="preTanggal" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Materi / Agenda Latihan</label>
-                                <input type="text" id="preMateri" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Drill Smesy & Game">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Dokumentasi / Lampiran</label>
-                                <input type="file" id="preFile" accept="image/*,.pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-slate-200 rounded-xl cursor-pointer">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Checklist Kehadiran Siswa</label>
-                                <button type="button" onclick="openBigPresensiModal()" class="w-full py-3.5 px-4 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-bold text-xs rounded-xl transition-colors flex items-center justify-between shadow-sm">
-                                    <span class="flex items-center gap-2"><i class="fas fa-users-viewfinder text-base"></i> Buka Kotak Pilih Siswa (Pop-up)</span>
-                                    <span id="presensiCountBadge" class="bg-blue-600 text-white px-2.5 py-0.5 rounded-full text-[11px]">0 Terpilih</span>
-                                </button>
-                            </div>
-                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm flex items-center justify-center gap-2">
-                                <i class="fas fa-save"></i> Simpan Sesi Presensi
-                            </button>
-                        </form>
+
+                <!-- Tabel Riwayat Pertemuan & Presensi (Default Tampilan Utama) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[500px]">
+                    <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
+                        <span class="font-bold text-slate-800 text-xs md:text-sm">Riwayat Pertemuan & Rekap Kehadiran</span>
                     </div>
-                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[500px]">
-                        <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
-                            <span class="font-bold text-slate-800 text-xs md:text-sm">Riwayat Pertemuan & Presensi</span>
-                        </div>
-                        <div class="overflow-x-auto flex-1">
-                            <table class="w-full text-left border-collapse min-w-[550px]">
-                                <thead>
-                                    <tr class="bg-slate-100/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        <th class="p-3.5">Tanggal</th>
-                                        <th class="p-3.5">Materi Latihan</th>
-                                        <th class="p-3.5 text-center">Kehadiran</th>
-                                        <th class="p-3.5 text-center">Lampiran</th>
-                                        <th class="p-3.5 text-center">Detail</th>
-                                        <th class="p-3.5 text-center role-pengurus-only w-16">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tablePresensi" class="divide-y divide-slate-100 text-xs md:text-sm"></tbody>
-                            </table>
-                        </div>
+                    <div class="overflow-x-auto flex-1">
+                        <table class="w-full text-left border-collapse min-w-[550px]">
+                            <thead>
+                                <tr class="bg-slate-100/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                                    <th class="p-3.5">Tanggal</th>
+                                    <th class="p-3.5">Materi Latihan</th>
+                                    <th class="p-3.5 text-center">Kehadiran (H/I/S/A)</th>
+                                    <th class="p-3.5 text-center">Lampiran</th>
+                                    <th class="p-3.5 text-center">Detail</th>
+                                    <th class="p-3.5 text-center role-pengurus-only w-16">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablePresensi" class="divide-y divide-slate-100 text-xs md:text-sm"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -374,7 +351,7 @@
                             </div>
                         </div>
 
-                        <!-- Form Tempel Banyak (Paste Data) -->
+                        <!-- Form Tempel Banyak (Paste Text) -->
                         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-purple-100 bg-purple-50/20 role-pengurus-only">
                             <h3 class="text-base font-bold text-slate-800 mb-2 pb-2 border-b border-purple-100 flex items-center gap-2">
                                 <i class="fas fa-paste text-purple-600"></i> Tempel Banyak (Paste Teks)
@@ -476,36 +453,59 @@
         </div>
     </main>
 
-    <!-- MODAL POPUP CHECKLIST PRESENSI BESAR -->
-    <div id="bigPresensiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-5 md:p-6 transform transition-all relative max-h-[90vh] flex flex-col">
-            <div class="flex items-center justify-between pb-3 border-b mb-3">
+    <!-- MODAL TAMBAH SESI PERTEMUAN (FORM PRESENSI LENGKAP DENGAN PILIHAN HADIR, IZIN, SAKIT, ALPA) -->
+    <div id="presensiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 transform transition-all relative max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b mb-4">
                 <div>
-                    <h3 class="text-base font-bold text-slate-800">Checklist Kehadiran Siswa</h3>
-                    <p class="text-xs text-slate-500">Pilih siswa yang hadir pada sesi latihan ini.</p>
+                    <h3 class="text-base font-bold text-slate-800">Catat Sesi Pertemuan & Presensi</h3>
+                    <p class="text-xs text-slate-500">Atur status kehadiran (Hadir, Izin, Sakit, Alpa) untuk setiap siswa.</p>
                 </div>
-                <button type="button" onclick="closeBigPresensiModal()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
-            </div>
-            
-            <div class="flex items-center justify-between mb-3 bg-slate-50 p-2.5 rounded-xl border">
-                <div class="relative flex-1 mr-3">
-                    <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                    <input type="text" id="searchModalPresensi" oninput="filterModalPresensiList()" placeholder="Cari nama atau kelas..." class="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-lg text-xs outline-none bg-white">
-                </div>
-                <div class="flex gap-2 shrink-0">
-                    <button type="button" onclick="toggleAllModalAttendance(true)" class="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg font-bold hover:bg-blue-100">Pilih Semua</button>
-                    <button type="button" onclick="toggleAllModalAttendance(false)" class="text-xs bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold hover:bg-slate-300">Kosongkan</button>
-                </div>
+                <button type="button" onclick="closePresensiModal()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             </div>
 
-            <div id="modalPresensiListContainer" class="overflow-y-auto flex-1 space-y-2 pr-1 border border-slate-200 rounded-xl p-3 bg-slate-50/50 min-h-[250px] max-h-[50vh]">
-                <p class="text-xs text-slate-400 text-center py-6">Belum ada data anggota.</p>
-            </div>
+            <form id="formPresensi" onsubmit="handlePresensiSubmit(event)" class="space-y-4 overflow-y-auto flex-1 pr-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Pertemuan</label>
+                        <input type="date" id="preTanggal" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Materi / Agenda Latihan</label>
+                        <input type="text" id="preMateri" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Drill Smesy & Game">
+                    </div>
+                </div>
 
-            <div class="mt-4 pt-3 border-t flex justify-between items-center">
-                <span class="text-xs font-bold text-slate-600" id="modalSelectedCountLabel">0 Siswa Dipilih</span>
-                <button type="button" onclick="confirmBigPresensiSelection()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow">Konfirmasi & Simpan Pilihan</button>
-            </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Dokumentasi / Lampiran (Opsional)</label>
+                    <input type="file" id="preFile" accept="image/*,.pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-slate-200 rounded-xl cursor-pointer">
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-xs font-semibold text-slate-700">Daftar Status Kehadiran Siswa</label>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="setAllAttendanceStatus('hadir')" class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-1 rounded font-bold hover:bg-emerald-100">Semua Hadir</button>
+                            <button type="button" onclick="setAllAttendanceStatus('alpa')" class="text-[10px] bg-rose-50 text-rose-700 px-2 py-1 rounded font-bold hover:bg-rose-100">Semua Alpa</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Bar di Modal Presensi -->
+                    <div class="relative mb-3">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                        <input type="text" id="searchModalPresensi" oninput="renderModalPresensiStudents()" placeholder="Cari nama atau kelas siswa..." class="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none bg-slate-50">
+                    </div>
+
+                    <div id="modalPresensiListContainer" class="space-y-2 border border-slate-200 rounded-xl p-3 bg-slate-50/50 max-h-[280px] overflow-y-auto">
+                        <p class="text-xs text-slate-400 text-center py-6">Belum ada data anggota.</p>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex justify-end gap-3">
+                    <button type="button" onclick="closePresensiModal()" class="px-4 py-2.5 bg-slate-200 text-slate-700 text-xs font-bold rounded-xl">Batal</button>
+                    <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow">Simpan Sesi Presensi</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -741,7 +741,6 @@
                 }, (err) => { isMockMode = true; renderAll(); });
             });
 
-            // Listener Papan Informasi
             onSnapshot(doc(db, 'settings', 'announcement'), (docSnap) => {
                 if(docSnap.exists()) {
                     dataStore.board = docSnap.data();
@@ -750,7 +749,6 @@
             }, (err) => {});
         }
 
-        // --- PENGURUTAN KELAS OTOMATIS (X-1 s.d. XI-9) ---
         function parseClassOrder(kelasStr) {
             if(!kelasStr) return 999;
             let str = kelasStr.trim().toUpperCase();
@@ -760,8 +758,6 @@
             else if(str.startsWith('XII-') || str.startsWith('12')) tingkat = 12;
             else tingkat = 5;
 
-            let numPart = str.replace(/[^0-9]/g, '');
-            // jika format X-7, ambil angka terakhir atau setelah strip
             let match = str.match(/[-]?([0-9]+)$/);
             let subNum = match ? parseInt(match[1]) : 0;
             return tingkat * 100 + subNum;
@@ -828,53 +824,54 @@
             showToast("Papan informasi berhasil diperbarui!", "success");
         }
 
-        // --- POP-UP CHECKLIST PRESENSI BESAR ---
-        window.openBigPresensiModal = () => {
-            renderModalPresensiList();
-            document.getElementById('bigPresensiModal').classList.remove('hide');
+        // --- KONTROL MODAL TAMBAH SESI PRESENSI ---
+        window.openPresensiModal = () => {
+            document.getElementById('formPresensi').reset();
+            renderModalPresensiStudents();
+            document.getElementById('presensiModal').classList.remove('hide');
         };
-        window.closeBigPresensiModal = () => document.getElementById('bigPresensiModal').classList.add('hide');
+        window.closePresensiModal = () => document.getElementById('presensiModal').classList.add('hide');
 
-        function renderModalPresensiList() {
+        function renderModalPresensiStudents() {
             const container = document.getElementById('modalPresensiListContainer');
-            const searchVal = (document.getElementById('searchModalPresensi').value || "").toLowerCase();
+            const searchVal = (document.getElementById('searchModalPresensi')?.value || "").toLowerCase();
             let sorted = sortAnggotaList([...dataStore.anggota]);
             let filtered = sorted.filter(m => m.nama.toLowerCase().includes(searchVal) || m.kelas.toLowerCase().includes(searchVal));
 
-            if(filtered.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Tidak ada siswa yang cocok.</p>`;
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Belum ada data anggota.</p>`;
                 return;
             }
 
             container.innerHTML = filtered.map(m => `
-                <label class="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 cursor-pointer hover:bg-slate-50">
-                    <div class="flex items-center gap-3">
-                        <input type="checkbox" value="${m.id}" data-nama="${m.nama}" data-kelas="${m.kelas}" class="modal-presensi-cb w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500" onchange="updateModalCount()">
-                        <span class="text-xs font-bold text-slate-800">${m.nama}</span>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 gap-2">
+                    <div>
+                        <span class="text-xs font-bold text-slate-800 block">${m.nama}</span>
+                        <span class="text-[10px] text-slate-500 font-semibold">${m.kelas}</span>
                     </div>
-                    <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">${m.kelas}</span>
-                </label>
+                    <div class="flex items-center gap-1.5 self-end sm:self-auto">
+                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                            <input type="radio" name="status_${m.id}" value="hadir" checked class="accent-emerald-600"> Hadir
+                        </label>
+                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
+                            <input type="radio" name="status_${m.id}" value="izin" class="accent-blue-600"> Izin
+                        </label>
+                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                            <input type="radio" name="status_${m.id}" value="sakit" class="accent-amber-600"> Sakit
+                        </label>
+                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1">
+                            <input type="radio" name="status_${m.id}" value="alpa" class="accent-rose-600"> Alpa
+                        </label>
+                    </div>
+                </div>
             `).join('');
-            updateModalCount();
         }
 
-        window.filterModalPresensiList = () => renderModalPresensiList();
-
-        window.toggleAllModalAttendance = (status) => {
-            document.querySelectorAll('.modal-presensi-cb').forEach(cb => cb.checked = status);
-            updateModalCount();
-        };
-
-        window.updateModalCount = () => {
-            const checked = document.querySelectorAll('.modal-presensi-cb:checked').length;
-            document.getElementById('modalSelectedCountLabel').innerText = `${checked} Siswa Dipilih`;
-        };
-
-        window.confirmBigPresensiSelection = () => {
-            const checked = document.querySelectorAll('.modal-presensi-cb:checked');
-            document.getElementById('presensiCountBadge').innerText = `${checked.length} Terpilih`;
-            closeBigPresensiModal();
-            showToast(`${checked.length} siswa ditandai hadir untuk sesi ini.`, "info");
+        window.setAllAttendanceStatus = (status) => {
+            dataStore.anggota.forEach(m => {
+                let radio = document.querySelector(`input[name="status_${m.id}"][value="${status}"]`);
+                if(radio) radio.checked = true;
+            });
         };
 
         function renderTable(type) {
@@ -893,7 +890,6 @@
                 }
 
                 filtered.forEach(item => {
-                    // Hitung rekap hadir, izin, sakit, alpa dari presensi
                     let hadir = 0, izin = 0, sakit = 0, alpa = 0;
                     dataStore.presensi.forEach(p => {
                         if(p.pesertaList) {
@@ -948,11 +944,25 @@
                     const fileBtn = item.fileData 
                         ? `<button onclick="previewFile('${item.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold inline-flex items-center gap-1"><i class="fas fa-paperclip"></i> Lihat</button>`
                         : `<span class="text-slate-300 text-xs">-</span>`;
+                    
+                    // Hitung ringkasan H / I / S / A
+                    let cH = 0, cI = 0, cS = 0, cA = 0;
+                    if(item.pesertaList) {
+                        item.pesertaList.forEach(p => {
+                            if(p.status === 'hadir') cH++;
+                            else if(p.status === 'izin') cI++;
+                            else if(p.status === 'sakit') cS++;
+                            else cA++;
+                        });
+                    }
+
                     html += `<tr class="hover:bg-slate-50">
                         <td class="p-3.5 border-b border-slate-100 font-medium text-slate-600 whitespace-nowrap">${item.tanggal}</td>
                         <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800">${item.materi}</td>
                         <td class="p-3.5 border-b border-slate-100 text-center whitespace-nowrap">
-                            <span class="px-2.5 py-1 bg-blue-100 text-blue-800 font-bold text-[11px] rounded-full">${item.hadirCount} / ${item.totalCount || item.hadirCount} Hadir</span>
+                            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 font-bold text-[11px] rounded-full">
+                                <span class="text-emerald-600">${cH}H</span> / <span class="text-blue-600">${cI}I</span> / <span class="text-amber-600">${cS}S</span> / <span class="text-rose-600">${cA}A</span>
+                            </span>
                         </td>
                         <td class="p-3.5 border-b border-slate-100 text-center whitespace-nowrap">${fileBtn}</td>
                         <td class="p-3.5 border-b border-slate-100 text-center whitespace-nowrap">
@@ -965,7 +975,6 @@
             tbody.innerHTML = html;
         }
 
-        // --- PENILAIAN MASSAL (BULK SUBMIT) ---
         function renderBulkNilaiForm() {
             const tbody = document.getElementById('bulkNilaiTbody');
             if(!tbody) return;
@@ -981,7 +990,6 @@
 
             let html = '';
             filtered.forEach((m, idx) => {
-                // Cari nilai yang sudah tersimpan sebelumnya jika ada
                 let existingNilai = dataStore.nilai.find(n => n.memberId === m.id) || {};
                 let valNilai = existingNilai.nilai || '';
                 let valKet = existingNilai.keterangan || '';
@@ -1022,7 +1030,6 @@
                         keterangan: inputKet ? inputKet.value.trim() : ''
                     };
                     
-                    // Simpan atau perbarui di state lokal & database
                     let existingIdx = dataStore.nilai.findIndex(n => n.memberId === m.id);
                     if(existingIdx >= 0) {
                         dataStore.nilai[existingIdx] = { ...dataStore.nilai[existingIdx], ...nilaiObj };
@@ -1047,17 +1054,26 @@
             const p = dataStore.presensi.find(x => x.id === presensiId);
             if (!p) return;
             document.getElementById('detailPresensiTitle').innerText = `Pertemuan: ${p.materi}`;
-            document.getElementById('detailPresensiSub').innerText = `Tanggal: ${p.tanggal} | Hadir: ${p.hadirCount} Siswa`;
+            document.getElementById('detailPresensiSub').innerText = `Tanggal: ${p.tanggal}`;
             const listContainer = document.getElementById('detailPresensiList');
-            listContainer.innerHTML = (p.pesertaList && p.pesertaList.length > 0) ? p.pesertaList.map(item => `
-                <div class="flex items-center justify-between p-2.5 rounded-xl border ${item.status === 'hadir' ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'}">
+            
+            listContainer.innerHTML = (p.pesertaList && p.pesertaList.length > 0) ? p.pesertaList.map(item => {
+                let badgeClass = 'bg-slate-100 text-slate-700';
+                let labelStatus = 'ALFA';
+                if(item.status === 'hadir') { badgeClass = 'bg-emerald-100 text-emerald-800'; labelStatus = 'HADIR'; }
+                else if(item.status === 'izin') { badgeClass = 'bg-blue-100 text-blue-800'; labelStatus = 'IZIN'; }
+                else if(item.status === 'sakit') { badgeClass = 'bg-amber-100 text-amber-800'; labelStatus = 'SAKIT'; }
+                else if(item.status === 'alpa') { badgeClass = 'bg-rose-100 text-rose-800'; labelStatus = 'ALFA'; }
+
+                return `<div class="flex items-center justify-between p-2.5 rounded-xl border bg-white">
                     <div class="flex items-center gap-2">
-                        <i class="fas ${item.status === 'hadir' ? 'fa-check-circle text-emerald-600' : 'fa-times-circle text-rose-500'}"></i>
                         <span class="text-xs font-bold text-slate-800">${item.nama}</span>
+                        <span class="text-[10px] text-slate-400">(${item.kelas})</span>
                     </div>
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded ${item.status === 'hadir' ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}">${item.status === 'hadir' ? 'HADIR' : 'ALFA'}</span>
-                </div>
-            `).join('') : `<p class="text-xs text-slate-400 text-center py-4">Tidak ada rincian nama.</p>`;
+                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded ${badgeClass}">${labelStatus}</span>
+                </div>`;
+            }).join('') : `<p class="text-xs text-slate-400 text-center py-4">Tidak ada rincian nama.</p>`;
+            
             document.getElementById('detailPresensiModal').classList.remove('hide');
         };
 
@@ -1102,7 +1118,6 @@
             } catch(e) { showToast("Gagal menghapus", "error"); }
         };
 
-        // --- FITUR DOWNLOAD CONTOH FORMAT & UPLOAD EXCEL ANGGOTA ---
         window.downloadExcelTemplate = () => {
             const sampleData = [
                 { "Nama Lengkap": "Ahmad Rizky", "Kelas": "XI-7" },
@@ -1158,7 +1173,6 @@
             reader.readAsArrayBuffer(file);
         };
 
-        // --- FITUR TEMPEL BANYAK (PASTE TEXT) ---
         window.processPasteData = async () => {
             const text = document.getElementById('pasteTextArea').value.trim();
             if (!text) {
@@ -1198,7 +1212,6 @@
             }
         };
 
-        // --- FITUR EKSPOR CSV ---
         window.exportAnggotaCSV = () => {
             if (dataStore.anggota.length === 0) {
                 showToast("Tidak ada data anggota untuk diekspor", "error");
@@ -1229,10 +1242,19 @@
                 showToast("Tidak ada riwayat presensi untuk diekspor", "error");
                 return;
             }
-            let csvContent = "Tanggal,Materi Latihan,Total Hadir,Total Anggota\n";
+            let csvContent = "Tanggal,Materi Latihan,Total Hadir,Total Izin,Total Sakit,Total Alpa\n";
             dataStore.presensi.forEach(row => {
                 let materi = row.materi ? row.materi.replace(/"/g, '""') : "";
-                csvContent += `"${row.tanggal}","${materi}",${row.hadirCount},${row.totalCount || row.hadirCount}\n`;
+                let h=0, i=0, s=0, a=0;
+                if(row.pesertaList) {
+                    row.pesertaList.forEach(p => {
+                        if(p.status==='hadir') h++;
+                        else if(p.status==='izin') i++;
+                        else if(p.status==='sakit') s++;
+                        else a++;
+                    });
+                }
+                csvContent += `"${row.tanggal}","${materi}",${h},${i},${s},${a}\n`;
             });
             downloadCSV(csvContent, "Riwayat_Presensi_FBC.csv");
         };
@@ -1271,23 +1293,26 @@
             }, 'formKas');
         });
 
-        document.getElementById('formPresensi').addEventListener('submit', async (e) => {
+        window.handlePresensiSubmit = async (e) => {
             e.preventDefault();
             const tanggal = document.getElementById('preTanggal').value;
             const materi = document.getElementById('preMateri').value;
             const fileInput = document.getElementById('preFile');
-            const checkedBoxes = document.querySelectorAll('.modal-presensi-cb:checked');
-            const checkedIds = new Set(Array.from(checkedBoxes).map(cb => cb.value));
 
             if (dataStore.anggota.length === 0) {
                 showToast("Tambahkan data anggota terlebih dahulu!", "error");
                 return;
             }
 
-            const pesertaList = dataStore.anggota.map(m => ({
-                id: m.id, nama: m.nama, kelas: m.kelas,
-                status: checkedIds.has(m.id) ? 'hadir' : 'alfa'
-            }));
+            const pesertaList = dataStore.anggota.map(m => {
+                let selectedRadio = document.querySelector(`input[name="status_${m.id}"]:checked`);
+                return {
+                    id: m.id,
+                    nama: m.nama,
+                    kelas: m.kelas,
+                    status: selectedRadio ? selectedRadio.value : 'alpa'
+                };
+            });
 
             let fileData = null, fileName = null;
             if (fileInput.files && fileInput.files[0]) {
@@ -1304,12 +1329,12 @@
                 });
             }
 
-            saveData('presensi', {
-                tanggal, materi, hadirCount: checkedBoxes.length,
-                totalCount: dataStore.anggota.length, pesertaList, fileData, fileName
-            }, 'formPresensi');
-            document.getElementById('presensiCountBadge').innerText = "0 Terpilih";
-        });
+            await saveData('presensi', {
+                tanggal, materi, pesertaList, fileData, fileName
+            }, null);
+
+            closePresensiModal();
+        };
 
         document.getElementById('formAnggota').addEventListener('submit', (e) => {
             e.preventDefault();
