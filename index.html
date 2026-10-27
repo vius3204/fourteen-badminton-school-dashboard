@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fourteen Badminton School - Management</title>
+    <title>Fourteen Badminton Club - Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -100,7 +100,7 @@
             <div id="view-overview" class="view-section space-y-6">
                 <div>
                     <h1 class="text-2xl font-bold text-slate-800">Dashboard Utama</h1>
-                    <p class="text-slate-500">Ringkasan sistem Fourteen Badminton School.</p>
+                    <p class="text-slate-500">Ringkasan sistem Fourteen Badminton Club.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-5">
@@ -128,7 +128,7 @@
                 
                 <div class="bg-white p-8 text-center rounded-2xl shadow-sm border border-slate-100 mt-6">
                     <img src="https://placehold.co/400x200/eff6ff/1e40af?text=Fourteen+Badminton" alt="Banner" class="w-full h-48 object-cover rounded-xl mb-6 mx-auto max-w-2xl">
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">Selamat Datang di Portal Fourteen Badminton School</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Selamat Datang di Portal Fourteen Badminton Club</h3>
                     <p class="text-slate-500 max-w-2xl mx-auto">Sistem terpusat untuk manajemen kas, pemantauan kehadiran anggota eskul, dan penilaian keterampilan. Gunakan menu di sebelah kiri untuk menavigasi aplikasi.</p>
                 </div>
             </div>
@@ -316,7 +316,6 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Deskripsi / Keterangan</label>
-                                <!-- Menggunakan Textarea agar pembina bisa mengisi penjelasan panjang -->
                                 <textarea id="nilKet" required rows="4" class="w-full px-3 py-2 border border-slate-300 rounded-lg outline-none resize-y" placeholder="Cth: Perkembangan fisik bagus, teknik pukulan forehand perlu ditingkatkan..."></textarea>
                             </div>
                             <button type="submit" class="w-full bg-amber-500 text-white font-medium py-2 rounded-lg hover:bg-amber-600 transition-colors">
@@ -334,7 +333,6 @@
                                         <th class="p-4 font-medium whitespace-nowrap">Nama Lengkap</th>
                                         <th class="p-4 font-medium">Kelas</th>
                                         <th class="p-4 font-medium text-center">Nilai</th>
-                                        <!-- Keterangan butuh ruang lebar -->
                                         <th class="p-4 font-medium keterangan-col">Keterangan</th>
                                         <th class="p-4 font-medium text-center role-pembina-only w-16">Aksi</th>
                                     </tr>
@@ -399,22 +397,29 @@
         let currentRole = 'public'; // 'public' | 'pengurus' | 'pembina'
 
         // ==========================================
-        // 2. FIREBASE INIT
+        // 2. FIREBASE INIT (KODE BARU)
         // ==========================================
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fourteen-badminton-app';
-        let firebaseConfig = { apiKey: "dummy", projectId: "dummy" };
-        try { if(typeof __firebase_config !== 'undefined') firebaseConfig = JSON.parse(__firebase_config); } catch(e) {}
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5WwsGIyesxnmkU6R06q6BixXsDblJgwU",
+            authDomain: "fourteen-badminton-club.firebaseapp.com",
+            databaseURL: "https://fourteen-badminton-club-default-rtdb.firebaseio.com",
+            projectId: "fourteen-badminton-club",
+            storageBucket: "fourteen-badminton-club.firebasestorage.app",
+            messagingSenderId: "994143565052",
+            appId: "1:994143565052:web:900b66f13bf77e42039379",
+            measurementId: "G-7H6NDPRRPQ"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // Strict Paths rule application
+        // Path Database dibuat lebih rapi agar mudah dicari di Firestore Console
         const paths = {
-            kas: `/artifacts/${appId}/public/data/fbc_kas`,
-            presensi: `/artifacts/${appId}/public/data/fbc_presensi`,
-            anggota: `/artifacts/${appId}/public/data/fbc_anggota`,
-            nilai: `/artifacts/${appId}/public/data/fbc_nilai`
+            kas: 'kas',
+            presensi: 'presensi',
+            anggota: 'anggota',
+            nilai: 'nilai'
         };
 
         // State Data
@@ -438,7 +443,6 @@
         // 3. UI & ROLE MANAGEMENT
         // ==========================================
         function updateRoleUI() {
-            // Reset visibility
             document.querySelectorAll('.role-pengurus-only, .role-pembina-only').forEach(el => el.classList.add('hide'));
             
             const btnLogin = document.getElementById('btnLoginMain');
@@ -475,7 +479,7 @@
                 roleIcon.innerHTML = '<i class="fas fa-star"></i>';
                 roleIcon.className = "w-10 h-10 rounded-full bg-amber-500 border-2 border-amber-300 flex items-center justify-center text-white";
             }
-            renderAll(); // Re-render tables to show/hide delete buttons
+            renderAll(); 
         }
 
         // Login Logic
@@ -527,8 +531,6 @@
         // 4. FIREBASE LISTENERS (Fetch ALL)
         // ==========================================
         function setupListeners() {
-            if(firebaseConfig.apiKey === "dummy") { isMockMode = true; renderAll(); return; }
-
             const collections = ['kas', 'presensi', 'anggota', 'nilai'];
             collections.forEach(colKey => {
                 const ref = collection(db, paths[colKey]);
@@ -536,7 +538,6 @@
                     dataStore[colKey] = [];
                     snap.forEach(doc => { dataStore[colKey].push({ id: doc.id, ...doc.data() }); });
                     
-                    // Sort descending memory (Rule 2: No complex queries)
                     dataStore[colKey].sort((a,b) => {
                         const tA = a.timestamp ? a.timestamp.toMillis() : 0;
                         const tB = b.timestamp ? b.timestamp.toMillis() : 0;
@@ -649,7 +650,7 @@
                 await addDoc(collection(db, paths[type]), dataObj);
                 document.getElementById(formId).reset();
                 showToast("Data berhasil disimpan!", "success");
-            } catch(e) { console.error(e); showToast("Gagal menyimpan data", "error"); }
+            } catch(e) { console.error(e); showToast("Gagal menyimpan data. Cek Rules Firebase.", "error"); }
         }
 
         window.deleteData = async (type, id) => {
@@ -697,7 +698,7 @@
                 nama: document.getElementById('nilNama').value,
                 kelas: document.getElementById('nilKelas').value,
                 nilai: document.getElementById('nilAngka').value,
-                keterangan: document.getElementById('nilKet').value // Dari Textarea multiline
+                keterangan: document.getElementById('nilKet').value
             }, 'formNilai');
         });
 
@@ -710,12 +711,8 @@
                 return;
             }
             
-            // Header
             let csvContent = "Nama Lengkap,Kelas,Nilai,Keterangan\n";
-            
-            // Rows
             dataStore.nilai.forEach(row => {
-                // Handling kutip di dalam text dan multiline enter
                 let ket = row.keterangan ? row.keterangan.replace(/"/g, '""').replace(/\n/g, ' ') : "";
                 csvContent += `"${row.nama}","${row.kelas}","${row.nilai}","${ket}"\n`;
             });
@@ -725,7 +722,6 @@
             
             const link = document.createElement("a");
             link.setAttribute("href", url);
-            // Format waktu ekspor sesuai permintaan
             const dateStr = new Date().toLocaleDateString('id-ID').replace(/\//g, '-');
             link.setAttribute("download", `Data_Nilai_FBC_${dateStr}.csv`);
             link.style.visibility = 'hidden';
