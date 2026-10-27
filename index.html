@@ -56,7 +56,7 @@
                     <span class="text-xs text-blue-400 font-semibold tracking-wider uppercase">Badminton Club</span>
                 </div>
             </div>
-            <button onclick="toggleMobileMenu()" class="md:hidden text-slate-400 hover:text-white p-2">
+            <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-slate-400 hover:text-white p-2">
                 <i class="fas fa-xmark text-lg"></i>
             </button>
         </div>
@@ -65,16 +65,16 @@
             <div>
                 <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-2">Menu Utama</div>
                 <nav class="space-y-1.5">
-                    <a href="#" class="nav-btn active flex items-center gap-3 px-3.5 py-3 bg-blue-600 text-white rounded-xl transition-colors font-medium text-sm" data-target="view-overview" onclick="toggleMobileMenu()">
+                    <a href="#" class="nav-btn active flex items-center gap-3 px-3.5 py-3 bg-blue-600 text-white rounded-xl transition-colors font-medium text-sm" data-target="view-overview">
                         <i class="fas fa-chart-pie w-5 text-center"></i> Overview
                     </a>
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-kas" onclick="toggleMobileMenu()">
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-kas">
                         <i class="fas fa-wallet w-5 text-center"></i> Buku Kas
                     </a>
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-presensi" onclick="toggleMobileMenu()">
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-presensi">
                         <i class="fas fa-clipboard-user w-5 text-center"></i> Daftar Hadir
                     </a>
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-anggota" onclick="toggleMobileMenu()">
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-anggota">
                         <i class="fas fa-users w-5 text-center"></i> Data Anggota
                     </a>
                 </nav>
@@ -83,7 +83,7 @@
             <div>
                 <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 px-2">Akademik & Evaluasi</div>
                 <nav class="space-y-1.5">
-                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-nilai" onclick="toggleMobileMenu()">
+                    <a href="#" class="nav-btn flex items-center gap-3 px-3.5 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-colors font-medium text-sm" data-target="view-nilai">
                         <i class="fas fa-star w-5 text-center text-amber-400"></i> Penilaian Eskul
                     </a>
                 </nav>
@@ -100,10 +100,10 @@
                     <div class="text-xs text-slate-400 truncate" id="activeRoleLabel">Lihat Saja</div>
                 </div>
             </div>
-            <button id="btnLoginMain" onclick="showLoginModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2">
+            <button type="button" id="btnLoginMain" onclick="showLoginModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2">
                 <i class="fas fa-key"></i> Masuk / Login
             </button>
-            <button id="btnLogoutMain" onclick="handleLogout()" class="w-full bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white font-medium py-2.5 px-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2 hide">
+            <button type="button" id="btnLogoutMain" onclick="handleLogout()" class="w-full bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white font-medium py-2.5 px-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2 hide">
                 <i class="fas fa-right-from-bracket"></i> Keluar
             </button>
         </div>
@@ -114,13 +114,13 @@
         
         <div class="md:hidden bg-slate-900 text-white px-4 py-3.5 flex items-center justify-between shrink-0 shadow-md z-10">
             <div class="flex items-center gap-3">
-                <button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white p-1">
+                <button type="button" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white p-1">
                     <i class="fas fa-bars text-lg"></i>
                 </button>
                 <img src="https://i.postimg.cc/hhFCvNCZ/logo-fourteen-jpg.jpg" onerror="this.src='https://placehold.co/40x40/1e293b/3b82f6?text=FBC';" alt="FBC" class="w-8 h-8 object-contain">
                 <span class="font-bold text-sm tracking-wide">FBC Management</span>
             </div>
-            <button onclick="showLoginModal()" class="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg font-semibold shadow">Login</button>
+            <button type="button" onclick="showLoginModal()" class="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg font-semibold shadow">Login</button>
         </div>
 
         <div id="publicBanner" class="bg-amber-50 border-b border-amber-200 text-amber-900 px-4 md:px-6 py-2.5 text-xs md:text-sm font-medium flex items-center justify-between shrink-0 shadow-sm">
@@ -128,7 +128,7 @@
                 <i class="fas fa-circle-info text-amber-600 text-base shrink-0"></i>
                 <span class="truncate">Mode <strong>Lihat Saja</strong>. Login untuk kelola data & edit papan informasi.</span>
             </div>
-            <button onclick="showLoginModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-md text-xs font-bold transition-colors shrink-0 ml-2">LOGIN</button>
+            <button type="button" onclick="showLoginModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-md text-xs font-bold transition-colors shrink-0 ml-2">LOGIN</button>
         </div>
 
         <div class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32">
@@ -269,10 +269,10 @@
                         <p class="text-slate-500 text-xs md:text-sm">Riwayat pertemuan dan presensi latihan anggota.</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <button onclick="exportPresensiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                        <button type="button" onclick="exportPresensiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
                             <i class="fas fa-file-csv text-base"></i> Ekspor CSV
                         </button>
-                        <button onclick="openPresensiModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors role-pengurus-only">
+                        <button type="button" onclick="openPresensiModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors role-pengurus-only">
                             <i class="fas fa-plus text-base"></i> Tambah Sesi Pertemuan
                         </button>
                     </div>
@@ -307,7 +307,7 @@
                         <h1 class="text-2xl font-bold text-slate-800">Data Anggota Eskul</h1>
                         <p class="text-slate-500 text-xs md:text-sm">Daftar seluruh siswa terurut otomatis dari kelas X-1 s.d. XI-9 beserta rekap kehadiran.</p>
                     </div>
-                    <button onclick="exportAnggotaCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
+                    <button type="button" onclick="exportAnggotaCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
                         <i class="fas fa-file-csv text-base"></i> Ekspor Data Anggota CSV
                     </button>
                 </div>
@@ -412,7 +412,7 @@
                             <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                             <input type="text" id="searchNilaiInput" oninput="renderBulkNilaiForm()" placeholder="Cari siswa/kelas..." class="w-full sm:w-60 pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
                         </div>
-                        <button onclick="exportNilaiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                        <button type="button" onclick="exportNilaiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
                             <i class="fas fa-file-csv text-base"></i> Ekspor CSV
                         </button>
                     </div>
@@ -682,7 +682,7 @@
                 roleLabel.innerText = "Akses: Penilaian Massal";
                 roleIcon.innerHTML = '<i class="fas fa-award"></i>';
                 roleIcon.className = "w-10 h-10 rounded-xl bg-amber-500 border border-amber-300 flex items-center justify-center text-white shadow-md";
-                if(boardEditContainer) boardEditContainer.classList.remove('hide');
+                if(boardEditContainer) boardEditContainer.classList.add('hide');
             }
             renderAll();
         }
@@ -814,17 +814,21 @@
             document.getElementById('inputBoardContent').value = dataStore.board.content || "";
             document.getElementById('boardEditModal').classList.remove('hide');
         };
-        window.closeBoardEditModal = () => document.getElementById('boardEditModal').classList.add('hide');
 
-        async function handleBoardEditSubmit(e) {
+        window.closeBoardEditModal = () => {
+            document.getElementById('boardEditModal').classList.add('hide');
+        };
+
+        window.handleBoardEditSubmit = async (e) => {
             e.preventDefault();
             const title = document.getElementById('inputBoardTitle').value;
             const content = document.getElementById('inputBoardContent').value;
             
+            // Perbarui data secara instan di state lokal & UI
             dataStore.board = { title, content };
             renderBoard();
             closeBoardEditModal();
-            updateRoleUI(); // Mempertahankan role aktif agar header/sidebar tidak ikut tertutup
+            updateRoleUI(); // Menjaga UI role tetap stabil
 
             if(!isMockMode) {
                 try {
