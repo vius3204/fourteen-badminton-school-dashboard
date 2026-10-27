@@ -25,7 +25,7 @@
         }
         .toast.show { transform: translateY(0); opacity: 1; }
         
-        .keterangan-col { min-width: 280px; max-width: 450px; white-space: normal !important; word-break: break-word; }
+        .keterangan-col { min-width: 250px; max-width: 350px; white-space: normal !important; word-break: break-word; }
         
         .logo-img {
             object-fit: contain;
@@ -128,7 +128,7 @@
         <div id="publicBanner" class="bg-amber-50 border-b border-amber-200 text-amber-900 px-4 md:px-6 py-2.5 text-xs md:text-sm font-medium flex items-center justify-between shrink-0 shadow-sm">
             <div class="flex items-center gap-2 overflow-hidden">
                 <i class="fas fa-circle-info text-amber-600 text-base shrink-0"></i>
-                <span class="truncate">Mode <strong>Lihat Saja</strong>. Login untuk kelola data.</span>
+                <span class="truncate">Mode <strong>Lihat Saja</strong>. Login untuk kelola data & edit papan informasi.</span>
             </div>
             <button onclick="showLoginModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-md text-xs font-bold transition-colors shrink-0 ml-2">LOGIN</button>
         </div>
@@ -137,60 +137,73 @@
             
             <!-- OVERVIEW -->
             <div id="view-overview" class="view-section space-y-6">
-                <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="space-y-2 z-10 max-w-xl text-center md:text-left">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-xs font-semibold">
-                            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Official Management System
+                <!-- Papan Informasi Interaktif -->
+                <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden flex flex-col gap-5">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 z-10">
+                        <div class="space-y-1.5">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-300 text-xs font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Papan Pengumuman & Informasi Eskul
+                            </div>
+                            <h1 class="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
+                                <i class="fas fa-bullhorn text-amber-400"></i> <span id="boardTitleDisplay">Jadwal & Pengumuman Resmi FBC</span>
+                            </h1>
                         </div>
-                        <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Fourteen Badminton School</h1>
-                        <p class="text-slate-300 text-xs md:text-sm leading-relaxed">
-                            Portal terpusat untuk perbendaharaan kas, pencatatan presensi kehadiran anggota eskul, serta rekapitulasi penilaian prestasi siswa.
-                        </p>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-white/10 p-3 rounded-2xl backdrop-blur-md border border-white/20 shadow-xl shrink-0 hidden sm:block">
+                                <img src="https://i.postimg.cc/hhFCvNCZ/logo-fourteen-jpg.jpg" onerror="this.src='https://placehold.co/80x80/1e293b/ffffff?text=FBC';" alt="Logo" class="w-14 h-14 object-contain logo-img">
+                            </div>
+                        </div>
                     </div>
-                    <div class="z-10 shrink-0 flex items-center justify-center bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20 shadow-2xl">
-                        <img src="https://i.postimg.cc/hhFCvNCZ/logo-fourteen-jpg.jpg" 
-                             onerror="this.onerror=null; this.src='https://placehold.co/120x120/1e293b/ffffff?text=FBC+14';" 
-                             alt="FBC Logo Large" class="w-24 h-24 md:w-32 md:h-32 object-contain logo-img">
+
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl p-4 md:p-5 text-slate-200 text-xs md:text-sm leading-relaxed z-10" id="boardContentDisplay">
+                        Selamat datang di portal resmi Fourteen Badminton Club. Silakan cek jadwal latihan rutin dan informasi penting lainnya melalui papan pengumuman ini.
                     </div>
+
+                    <!-- Tombol Edit Papan Informasi (Hanya Muncul Jika Login) -->
+                    <div id="boardEditContainer" class="z-10 pt-2 border-t border-white/10 flex justify-end hide">
+                        <button onclick="openBoardEditModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow transition-colors flex items-center gap-2">
+                            <i class="fas fa-pen-to-square"></i> Edit Papan Informasi
+                        </button>
+                    </div>
+
                     <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl md:text-2xl shrink-0"><i class="fas fa-wallet"></i></div>
+                <!-- Kartu Statistik Keuangan & Anggota Lengkap -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-wallet"></i></div>
                         <div>
-                            <p class="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Saldo Kas Eskul</p>
-                            <p class="text-xl md:text-2xl font-bold text-slate-800" id="ov-saldo">Rp 0</p>
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Kas Bersih</p>
+                            <p class="text-base md:text-lg font-bold text-slate-800" id="ov-saldo">Rp 0</p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl md:text-2xl shrink-0"><i class="fas fa-users"></i></div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-arrow-trend-up"></i></div>
                         <div>
-                            <p class="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Total Anggota</p>
-                            <p class="text-xl md:text-2xl font-bold text-slate-800"><span id="ov-anggota">0</span> <span class="text-xs md:text-sm font-normal text-slate-400">Siswa</span></p>
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Pemasukan</p>
+                            <p class="text-base md:text-lg font-bold text-emerald-600" id="ov-masuk">Rp 0</p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
-                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl md:text-2xl shrink-0"><i class="fas fa-calendar-check"></i></div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-arrow-trend-down"></i></div>
                         <div>
-                            <p class="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Total Sesi Latihan</p>
-                            <p class="text-xl md:text-2xl font-bold text-slate-800"><span id="ov-presensi">0</span> <span class="text-xs md:text-sm font-normal text-slate-400">Pertemuan</span></p>
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Pengeluaran</p>
+                            <p class="text-base md:text-lg font-bold text-rose-600" id="ov-keluar">Rp 0</p>
                         </div>
                     </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-4">
-                    <h3 class="font-bold text-slate-800 text-base md:text-lg flex items-center gap-2">
-                        <i class="fas fa-bullhorn text-blue-600"></i> Panduan Hak Akses Fitur
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                            <span class="inline-block px-2.5 py-1 bg-blue-100 text-blue-700 font-bold text-[10px] md:text-xs rounded-md mb-2">PENGURUSESKUL</span>
-                            <p class="text-slate-600 leading-relaxed">Berhak mengelola input data buku kas, menambah data anggota via satuan, impor Excel, maupun tempel banyak teks data siswa, serta mencatat presensi.</p>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-users"></i></div>
+                        <div>
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Anggota</p>
+                            <p class="text-base md:text-lg font-bold text-slate-800"><span id="ov-anggota">0</span> <span class="text-xs font-normal text-slate-400">Siswa</span></p>
                         </div>
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-                            <span class="inline-block px-2.5 py-1 bg-amber-100 text-amber-800 font-bold text-[10px] md:text-xs rounded-md mb-2">PEMBINAESKUL</span>
-                            <p class="text-slate-600 leading-relaxed">Berhak memilih siswa terdaftar dari list anggota untuk diberikan skor penilaian, deskripsi evaluasi teknis/fisik lengkap, serta melakukan ekspor laporan nilai ke CSV.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0"><i class="fas fa-calendar-check"></i></div>
+                        <div>
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-0.5">Total Sesi Latihan</p>
+                            <p class="text-base md:text-lg font-bold text-slate-800"><span id="ov-presensi">0</span> <span class="text-xs font-normal text-slate-400">Pertemuan</span></p>
                         </div>
                     </div>
                 </div>
@@ -275,17 +288,11 @@
                                 <input type="file" id="preFile" accept="image/*,.pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-slate-200 rounded-xl cursor-pointer">
                             </div>
                             <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <label class="text-xs font-bold text-slate-800">Checklist Kehadiran Siswa</label>
-                                    <div class="flex gap-2">
-                                        <button type="button" onclick="toggleAllAttendance(true)" class="text-[11px] text-blue-600 hover:underline font-semibold">Pilih Semua</button>
-                                        <span class="text-slate-300">|</span>
-                                        <button type="button" onclick="toggleAllAttendance(false)" class="text-[11px] text-slate-500 hover:underline font-semibold">Kosongkan</button>
-                                    </div>
-                                </div>
-                                <div id="presensiChecklistContainer" class="max-h-56 overflow-y-auto border border-slate-200 rounded-xl p-3 space-y-2 bg-slate-50/50">
-                                    <p class="text-xs text-slate-400 text-center py-4">Belum ada data anggota.</p>
-                                </div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Checklist Kehadiran Siswa</label>
+                                <button type="button" onclick="openBigPresensiModal()" class="w-full py-3.5 px-4 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 font-bold text-xs rounded-xl transition-colors flex items-center justify-between shadow-sm">
+                                    <span class="flex items-center gap-2"><i class="fas fa-users-viewfinder text-base"></i> Buka Kotak Pilih Siswa (Pop-up)</span>
+                                    <span id="presensiCountBadge" class="bg-blue-600 text-white px-2.5 py-0.5 rounded-full text-[11px]">0 Terpilih</span>
+                                </button>
                             </div>
                             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm flex items-center justify-center gap-2">
                                 <i class="fas fa-save"></i> Simpan Sesi Presensi
@@ -320,7 +327,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 class="text-2xl font-bold text-slate-800">Data Anggota Eskul</h1>
-                        <p class="text-slate-500 text-xs md:text-sm">Daftar seluruh siswa-siswi yang terdaftar di Fourteen Badminton.</p>
+                        <p class="text-slate-500 text-xs md:text-sm">Daftar seluruh siswa terurut otomatis dari kelas X-1 s.d. XI-9 beserta rekap kehadiran.</p>
                     </div>
                     <button onclick="exportAnggotaCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
                         <i class="fas fa-file-csv text-base"></i> Ekspor Data Anggota CSV
@@ -337,7 +344,7 @@
                                     <input type="text" id="angNama" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Ahmad Rizky">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas</label>
+                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas (Cth: X-1, XI-7)</label>
                                     <input type="text" id="angKelas" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: XI-7">
                                 </div>
                                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm">
@@ -372,7 +379,7 @@
                             <h3 class="text-base font-bold text-slate-800 mb-2 pb-2 border-b border-purple-100 flex items-center gap-2">
                                 <i class="fas fa-paste text-purple-600"></i> Tempel Banyak (Paste Teks)
                             </h3>
-                            <p class="text-xs text-slate-500 mb-2">Format baris: <code class="bg-purple-100 text-purple-800 px-1 py-0.5 rounded">Nama, Kelas</code> atau copy dari Excel.</p>
+                            <p class="text-xs text-slate-500 mb-2">Format baris: <code class="bg-purple-100 text-purple-800 px-1 py-0.5 rounded">Nama, Kelas</code></p>
                             
                             <div class="space-y-3">
                                 <textarea id="pasteTextArea" rows="4" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-purple-500 bg-white leading-relaxed" placeholder="Contoh:&#10;Ahmad Rizky, XI-7&#10;Siti Aminah, XI-4"></textarea>
@@ -384,15 +391,24 @@
                     </div>
 
                     <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[450px]">
-                        <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
+                        <div class="p-4 bg-slate-50 border-b flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
                             <span class="font-bold text-slate-800 text-xs md:text-sm">Daftar Siswa Terdaftar</span>
+                            <!-- Search Bar Anggota -->
+                            <div class="relative">
+                                <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                                <input type="text" id="searchAnggotaInput" oninput="renderTable('anggota')" placeholder="Cari nama atau kelas..." class="w-full sm:w-60 pl-8 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                            </div>
                         </div>
                         <div class="overflow-x-auto flex-1">
-                            <table class="w-full text-left border-collapse min-w-[350px]">
+                            <table class="w-full text-left border-collapse min-w-[500px]">
                                 <thead>
                                     <tr class="bg-slate-100/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
                                         <th class="p-3.5">Nama Lengkap</th>
                                         <th class="p-3.5">Kelas</th>
+                                        <th class="p-3.5 text-center text-emerald-600">Hadir</th>
+                                        <th class="p-3.5 text-center text-blue-600">Izin</th>
+                                        <th class="p-3.5 text-center text-amber-600">Sakit</th>
+                                        <th class="p-3.5 text-center text-rose-600">Alpa</th>
                                         <th class="p-3.5 text-center role-pengurus-only w-16">Aksi</th>
                                     </tr>
                                 </thead>
@@ -407,69 +423,114 @@
             <div id="view-nilai" class="view-section space-y-6 hide">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 class="text-2xl font-bold text-slate-800">Penilaian Eskul</h1>
-                        <p class="text-slate-500 text-xs md:text-sm">Evaluasi performa, nilai, dan deskripsi kemampuan siswa dari Pembina.</p>
+                        <h1 class="text-2xl font-bold text-slate-800">Penilaian Eskul (Massal)</h1>
+                        <p class="text-slate-500 text-xs md:text-sm">Evaluasi seluruh siswa sekaligus dalam satu halaman (Bulk Submit).</p>
                     </div>
-                    <button onclick="exportNilaiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
-                        <i class="fas fa-file-csv text-base"></i> Ekspor Laporan Penilaian CSV
-                    </button>
+                    <div class="flex items-center gap-3 self-start md:self-auto">
+                        <!-- Search Bar Penilaian -->
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                            <input type="text" id="searchNilaiInput" oninput="renderBulkNilaiForm()" placeholder="Cari siswa/kelas..." class="w-full sm:w-60 pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                        </div>
+                        <button onclick="exportNilaiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                            <i class="fas fa-file-csv text-base"></i> Ekspor CSV
+                        </button>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-1 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-amber-200 bg-amber-50/20 role-pembina-only">
-                        <div class="flex items-center gap-2 mb-4 border-b border-amber-200 pb-2">
-                            <i class="fas fa-award text-amber-500 text-lg"></i>
-                            <h3 class="text-base font-bold text-slate-800">Form Evaluasi Pembina</h3>
+
+                <!-- Form Penilaian Massal -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="p-4 bg-amber-50 border-b border-amber-200 flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-amber-900 font-bold text-xs md:text-sm">
+                            <i class="fas fa-award text-amber-600 text-base"></i> Lembar Penilaian & Evaluasi Seluruh Siswa
                         </div>
-                        <form id="formNilai" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Siswa</label>
-                                <select id="nilMemberSelect" onchange="autoFillMemberDetails()" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500 bg-white">
-                                    <option value="">-- Pilih Siswa --</option>
-                                </select>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas</label>
-                                    <input type="text" id="nilKelas" readonly required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm bg-slate-100 text-slate-600 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nilai / Predikat</label>
-                                    <input type="text" id="nilAngka" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500" placeholder="Cth: A">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi / Keterangan Evaluasi</label>
-                                <textarea id="nilKet" required rows="4" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500 leading-relaxed resize-y" placeholder="Evaluasi fisik & teknik siswa..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm">
-                                Simpan Penilaian Siswa
-                            </button>
-                        </form>
+                        <span class="text-xs text-amber-700 font-semibold role-pembina-only">Isi data di bawah lalu klik tombol Simpan Massal</span>
                     </div>
-                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[500px]">
-                        <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
-                            <span class="font-bold text-slate-800 text-xs md:text-sm">Hasil Rekapitulasi Evaluasi Siswa</span>
-                        </div>
-                        <div class="overflow-x-auto flex-1">
-                            <table class="w-full text-left border-collapse min-w-[600px]">
-                                <thead>
-                                    <tr class="bg-slate-100/70 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                        <th class="p-3.5 whitespace-nowrap">Nama Lengkap</th>
-                                        <th class="p-3.5">Kelas</th>
-                                        <th class="p-3.5 text-center">Nilai</th>
-                                        <th class="p-3.5 keterangan-col">Deskripsi Keterangan Evaluasi</th>
-                                        <th class="p-3.5 text-center role-pembina-only w-16">Aksi</th>
+
+                    <form id="formBulkNilai" onsubmit="handleBulkNilaiSubmit(event)">
+                        <div class="overflow-x-auto max-h-[600px]">
+                            <table class="w-full text-left border-collapse min-w-[750px]">
+                                <thead class="sticky top-0 bg-slate-100 z-10 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                                    <tr>
+                                        <th class="p-3.5 w-12 text-center">No</th>
+                                        <th class="p-3.5">Nama Siswa</th>
+                                        <th class="p-3.5 w-24">Kelas</th>
+                                        <th class="p-3.5 w-32 text-center">Predikat / Nilai</th>
+                                        <th class="p-3.5">Deskripsi / Catatan Evaluasi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tableNilai" class="divide-y divide-slate-100 text-xs md:text-sm align-top"></tbody>
+                                <tbody id="bulkNilaiTbody" class="divide-y divide-slate-100 text-xs md:text-sm">
+                                    <tr><td colspan="5" class="p-8 text-center text-slate-400">Belum ada data anggota.</td></tr>
+                                </tbody>
                             </table>
                         </div>
-                    </div>
+                        <div class="p-4 bg-slate-50 border-t flex justify-end role-pembina-only">
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl text-sm shadow transition-colors flex items-center gap-2">
+                                <i class="fas fa-floppy-disk"></i> Simpan Seluruh Penilaian (Bulk Submit)
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
         </div>
     </main>
+
+    <!-- MODAL POPUP CHECKLIST PRESENSI BESAR -->
+    <div id="bigPresensiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-5 md:p-6 transform transition-all relative max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b mb-3">
+                <div>
+                    <h3 class="text-base font-bold text-slate-800">Checklist Kehadiran Siswa</h3>
+                    <p class="text-xs text-slate-500">Pilih siswa yang hadir pada sesi latihan ini.</p>
+                </div>
+                <button type="button" onclick="closeBigPresensiModal()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
+            </div>
+            
+            <div class="flex items-center justify-between mb-3 bg-slate-50 p-2.5 rounded-xl border">
+                <div class="relative flex-1 mr-3">
+                    <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                    <input type="text" id="searchModalPresensi" oninput="filterModalPresensiList()" placeholder="Cari nama atau kelas..." class="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-lg text-xs outline-none bg-white">
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <button type="button" onclick="toggleAllModalAttendance(true)" class="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg font-bold hover:bg-blue-100">Pilih Semua</button>
+                    <button type="button" onclick="toggleAllModalAttendance(false)" class="text-xs bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-bold hover:bg-slate-300">Kosongkan</button>
+                </div>
+            </div>
+
+            <div id="modalPresensiListContainer" class="overflow-y-auto flex-1 space-y-2 pr-1 border border-slate-200 rounded-xl p-3 bg-slate-50/50 min-h-[250px] max-h-[50vh]">
+                <p class="text-xs text-slate-400 text-center py-6">Belum ada data anggota.</p>
+            </div>
+
+            <div class="mt-4 pt-3 border-t flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-600" id="modalSelectedCountLabel">0 Siswa Dipilih</span>
+                <button type="button" onclick="confirmBigPresensiSelection()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow">Konfirmasi & Simpan Pilihan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT PAPAN INFORMASI -->
+    <div id="boardEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 transform transition-all relative">
+            <button onclick="closeBoardEditModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
+            <h3 class="text-lg font-bold text-slate-800 mb-1">Edit Papan Informasi</h3>
+            <p class="text-xs text-slate-400 mb-4">Pengumuman ini dapat dilihat oleh seluruh pengguna publik.</p>
+            
+            <form id="boardEditForm" onsubmit="handleBoardEditSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Pengumuman</label>
+                    <input type="text" id="inputBoardTitle" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Isi Pesan / Informasi</label>
+                    <textarea id="inputBoardContent" required rows="4" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-y"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-md">
+                    Simpan Perubahan Papan
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL LOGIN -->
     <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
@@ -477,7 +538,7 @@
             <button onclick="hideLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             <div class="text-center mb-6">
                 <div class="w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center p-2 mx-auto mb-3 shadow-inner">
-                    <img src="https://i.postimg.cc/hhFCvNCZ/logo-fourteen-jpg.jpg" onerror="this.src='https://placehold.co/60x60/1e293b/ffffff?text=FBC';" alt="Logo Modal" class="w-full h-full object-contain">
+                    <img src="https://i.postimg.cc/hhFCvNCZ/logo-fourteen-jpg.jpg" onerror="this.src='https://placehold.co/60x60/1e293b/ffffff?text=FBC';" alt="Logo" class="w-full h-full object-contain">
                 </div>
                 <h2 class="text-xl font-bold text-slate-800">Masuk Portal Akun</h2>
                 <p class="text-slate-400 text-xs mt-1">Otorisasi Pengurus atau Pembina Eskul</p>
@@ -534,7 +595,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, setDoc, doc, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const ACCOUNTS = {
             "PENGURUSESKUL": { pass: "FBC2K26", role: "pengurus", label: "Pengurus Eskul" },
@@ -558,8 +619,8 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        const paths = { kas: 'kas', presensi: 'presensi', anggota: 'anggota', nilai: 'nilai' };
-        let dataStore = { kas: [], presensi: [], anggota: [], nilai: [] };
+        const paths = { kas: 'kas', presensi: 'presensi', anggota: 'anggota', nilai: 'nilai', board: 'board' };
+        let dataStore = { kas: [], presensi: [], anggota: [], nilai: [], board: { title: "Jadwal & Pengumuman Resmi FBC", content: "Selamat datang di portal resmi Fourteen Badminton Club. Silakan cek jadwal latihan rutin dan informasi penting lainnya melalui papan pengumuman ini." } };
         let isMockMode = false;
 
         async function initApp() {
@@ -586,6 +647,7 @@
             const userLabel = document.getElementById('activeUserLabel');
             const roleLabel = document.getElementById('activeRoleLabel');
             const roleIcon = document.getElementById('roleIcon');
+            const boardEditContainer = document.getElementById('boardEditContainer');
 
             if (currentRole === 'public') {
                 btnLogin.classList.remove('hide');
@@ -595,6 +657,7 @@
                 roleLabel.innerText = "Lihat Saja";
                 roleIcon.innerHTML = '<i class="fas fa-user"></i>';
                 roleIcon.className = "w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400";
+                if(boardEditContainer) boardEditContainer.classList.add('hide');
             } else if (currentRole === 'pengurus') {
                 document.querySelectorAll('.role-pengurus-only').forEach(el => el.classList.remove('hide'));
                 btnLogin.classList.add('hide');
@@ -604,15 +667,17 @@
                 roleLabel.innerText = "Akses: Kas, Presensi, Anggota";
                 roleIcon.innerHTML = '<i class="fas fa-user-shield"></i>';
                 roleIcon.className = "w-10 h-10 rounded-xl bg-blue-600 border border-blue-400 flex items-center justify-center text-white shadow-md";
+                if(boardEditContainer) boardEditContainer.classList.remove('hide');
             } else if (currentRole === 'pembina') {
                 document.querySelectorAll('.role-pembina-only').forEach(el => el.classList.remove('hide'));
                 btnLogin.classList.add('hide');
                 btnLogout.classList.remove('hide');
                 banner.classList.add('hide');
                 userLabel.innerText = "Pembina Eskul";
-                roleLabel.innerText = "Akses: Penilaian Siswa";
+                roleLabel.innerText = "Akses: Penilaian Massal";
                 roleIcon.innerHTML = '<i class="fas fa-award"></i>';
                 roleIcon.className = "w-10 h-10 rounded-xl bg-amber-500 border border-amber-300 flex items-center justify-center text-white shadow-md";
+                if(boardEditContainer) boardEditContainer.classList.remove('hide');
             }
             renderAll();
         }
@@ -669,12 +734,45 @@
                 onSnapshot(ref, (snap) => {
                     dataStore[colKey] = [];
                     snap.forEach(doc => { dataStore[colKey].push({ id: doc.id, ...doc.data() }); });
-                    dataStore[colKey].sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                    if(colKey !== 'anggota') {
+                        dataStore[colKey].sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                    }
                     renderAll();
-                }, (err) => {
-                    isMockMode = true;
-                    renderAll();
-                });
+                }, (err) => { isMockMode = true; renderAll(); });
+            });
+
+            // Listener Papan Informasi
+            onSnapshot(doc(db, 'settings', 'announcement'), (docSnap) => {
+                if(docSnap.exists()) {
+                    dataStore.board = docSnap.data();
+                    renderBoard();
+                }
+            }, (err) => {});
+        }
+
+        // --- PENGURUTAN KELAS OTOMATIS (X-1 s.d. XI-9) ---
+        function parseClassOrder(kelasStr) {
+            if(!kelasStr) return 999;
+            let str = kelasStr.trim().toUpperCase();
+            let tingkat = 0;
+            if(str.startsWith('X-') || str.startsWith('10')) tingkat = 10;
+            else if(str.startsWith('XI-') || str.startsWith('11')) tingkat = 11;
+            else if(str.startsWith('XII-') || str.startsWith('12')) tingkat = 12;
+            else tingkat = 5;
+
+            let numPart = str.replace(/[^0-9]/g, '');
+            // jika format X-7, ambil angka terakhir atau setelah strip
+            let match = str.match(/[-]?([0-9]+)$/);
+            let subNum = match ? parseInt(match[1]) : 0;
+            return tingkat * 100 + subNum;
+        }
+
+        function sortAnggotaList(list) {
+            return list.sort((a, b) => {
+                let orderA = parseClassOrder(a.kelas);
+                let orderB = parseClassOrder(b.kelas);
+                if(orderA !== orderB) return orderA - orderB;
+                return a.nama.localeCompare(b.nama);
             });
         }
 
@@ -682,71 +780,159 @@
         const formatTgl = (t) => t ? new Date(t).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'}) : '-';
 
         function renderAll() {
-            let saldo = 0;
-            dataStore.kas.forEach(k => saldo += (k.tipe === 'masuk' ? Number(k.nominal) : -Number(k.nominal)));
-            document.getElementById('ov-saldo').innerText = formatRp(saldo);
+            let totalMasuk = 0, totalKeluar = 0;
+            dataStore.kas.forEach(k => {
+                let nom = Number(k.nominal) || 0;
+                if(k.tipe === 'masuk') totalMasuk += nom;
+                else totalKeluar += nom;
+            });
+            let saldoBersih = totalMasuk - totalKeluar;
+
+            document.getElementById('ov-saldo').innerText = formatRp(saldoBersih);
+            document.getElementById('ov-masuk').innerText = formatRp(totalMasuk);
+            document.getElementById('ov-keluar').innerText = formatRp(totalKeluar);
             document.getElementById('ov-presensi').innerText = dataStore.presensi.length;
             document.getElementById('ov-anggota').innerText = dataStore.anggota.length;
 
-            renderPresensiChecklist();
-            renderNilaiMemberDropdown();
+            renderBoard();
             renderTable('kas');
             renderTable('presensi');
             renderTable('anggota');
-            renderTable('nilai');
+            renderBulkNilaiForm();
         }
 
-        function renderPresensiChecklist() {
-            const container = document.getElementById('presensiChecklistContainer');
-            if (!container) return;
-            if (dataStore.anggota.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Belum ada siswa di 'Data Anggota'.</p>`;
+        function renderBoard() {
+            document.getElementById('boardTitleDisplay').innerText = dataStore.board.title || "Jadwal & Pengumuman Resmi FBC";
+            document.getElementById('boardContentDisplay').innerText = dataStore.board.content || "";
+        }
+
+        window.openBoardEditModal = () => {
+            document.getElementById('inputBoardTitle').value = dataStore.board.title || "";
+            document.getElementById('inputBoardContent').value = dataStore.board.content || "";
+            document.getElementById('boardEditModal').classList.remove('hide');
+        };
+        window.closeBoardEditModal = () => document.getElementById('boardEditModal').classList.add('hide');
+
+        async function handleBoardEditSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('inputBoardTitle').value;
+            const content = document.getElementById('inputBoardContent').value;
+            dataStore.board = { title, content };
+            renderBoard();
+            closeBoardEditModal();
+            if(!isMockMode) {
+                try {
+                    await setDoc(doc(db, 'settings', 'announcement'), { title, content });
+                } catch(err){}
+            }
+            showToast("Papan informasi berhasil diperbarui!", "success");
+        }
+
+        // --- POP-UP CHECKLIST PRESENSI BESAR ---
+        window.openBigPresensiModal = () => {
+            renderModalPresensiList();
+            document.getElementById('bigPresensiModal').classList.remove('hide');
+        };
+        window.closeBigPresensiModal = () => document.getElementById('bigPresensiModal').classList.add('hide');
+
+        function renderModalPresensiList() {
+            const container = document.getElementById('modalPresensiListContainer');
+            const searchVal = (document.getElementById('searchModalPresensi').value || "").toLowerCase();
+            let sorted = sortAnggotaList([...dataStore.anggota]);
+            let filtered = sorted.filter(m => m.nama.toLowerCase().includes(searchVal) || m.kelas.toLowerCase().includes(searchVal));
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Tidak ada siswa yang cocok.</p>`;
                 return;
             }
-            container.innerHTML = dataStore.anggota.map(m => `
-                <label class="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 cursor-pointer active:bg-slate-100">
-                    <div class="flex items-center gap-2.5">
-                        <input type="checkbox" value="${m.id}" data-nama="${m.nama}" data-kelas="${m.kelas}" class="presensi-cb w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
-                        <span class="text-xs font-semibold text-slate-800">${m.nama}</span>
+
+            container.innerHTML = filtered.map(m => `
+                <label class="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 cursor-pointer hover:bg-slate-50">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="${m.id}" data-nama="${m.nama}" data-kelas="${m.kelas}" class="modal-presensi-cb w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500" onchange="updateModalCount()">
+                        <span class="text-xs font-bold text-slate-800">${m.nama}</span>
                     </div>
                     <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">${m.kelas}</span>
                 </label>
             `).join('');
+            updateModalCount();
         }
 
-        window.toggleAllAttendance = (status) => {
-            document.querySelectorAll('.presensi-cb').forEach(cb => cb.checked = status);
+        window.filterModalPresensiList = () => renderModalPresensiList();
+
+        window.toggleAllModalAttendance = (status) => {
+            document.querySelectorAll('.modal-presensi-cb').forEach(cb => cb.checked = status);
+            updateModalCount();
         };
 
-        function renderNilaiMemberDropdown() {
-            const select = document.getElementById('nilMemberSelect');
-            if (!select) return;
-            const currentVal = select.value;
-            select.innerHTML = `<option value="">-- Pilih Siswa --</option>` + dataStore.anggota.map(m => `
-                <option value="${m.id}" data-nama="${m.nama}" data-kelas="${m.kelas}">${m.nama} (${m.kelas})</option>
-            `).join('');
-            select.value = currentVal;
-        }
+        window.updateModalCount = () => {
+            const checked = document.querySelectorAll('.modal-presensi-cb:checked').length;
+            document.getElementById('modalSelectedCountLabel').innerText = `${checked} Siswa Dipilih`;
+        };
 
-        window.autoFillMemberDetails = () => {
-            const select = document.getElementById('nilMemberSelect');
-            const selectedOpt = select.options[select.selectedIndex];
-            document.getElementById('nilKelas').value = (selectedOpt && selectedOpt.value) ? (selectedOpt.getAttribute('data-kelas') || '') : '';
+        window.confirmBigPresensiSelection = () => {
+            const checked = document.querySelectorAll('.modal-presensi-cb:checked');
+            document.getElementById('presensiCountBadge').innerText = `${checked.length} Terpilih`;
+            closeBigPresensiModal();
+            showToast(`${checked.length} siswa ditandai hadir untuk sesi ini.`, "info");
         };
 
         function renderTable(type) {
             const tbody = document.getElementById(`table${type.charAt(0).toUpperCase() + type.slice(1)}`);
             if (!tbody) return;
             let html = '';
-            const data = dataStore[type];
 
+            if (type === 'anggota') {
+                let sorted = sortAnggotaList([...dataStore.anggota]);
+                let search = (document.getElementById('searchAnggotaInput')?.value || "").toLowerCase();
+                let filtered = sorted.filter(m => m.nama.toLowerCase().includes(search) || m.kelas.toLowerCase().includes(search));
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 text-xs">Belum ada data anggota.</td></tr>`;
+                    return;
+                }
+
+                filtered.forEach(item => {
+                    // Hitung rekap hadir, izin, sakit, alpa dari presensi
+                    let hadir = 0, izin = 0, sakit = 0, alpa = 0;
+                    dataStore.presensi.forEach(p => {
+                        if(p.pesertaList) {
+                            let found = p.pesertaList.find(x => x.id === item.id);
+                            if(found) {
+                                if(found.status === 'hadir') hadir++;
+                                else if(found.status === 'izin') izin++;
+                                else if(found.status === 'sakit') sakit++;
+                                else alpa++;
+                            }
+                        }
+                    });
+
+                    let btnHapus = currentRole === 'pengurus'
+                        ? `<button onclick="deleteData('anggota', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>`
+                        : '';
+
+                    html += `<tr class="hover:bg-slate-50">
+                        <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800">${item.nama}</td>
+                        <td class="p-3.5 border-b border-slate-100 text-slate-600"><span class="px-2 py-0.5 bg-slate-100 font-semibold rounded text-xs">${item.kelas}</span></td>
+                        <td class="p-3.5 border-b border-slate-100 text-center font-bold text-emerald-600">${hadir}</td>
+                        <td class="p-3.5 border-b border-slate-100 text-center font-bold text-blue-600">${izin}</td>
+                        <td class="p-3.5 border-b border-slate-100 text-center font-bold text-amber-600">${sakit}</td>
+                        <td class="p-3.5 border-b border-slate-100 text-center font-bold text-rose-600">${alpa}</td>
+                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+                return;
+            }
+
+            const data = dataStore[type];
             if (data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 text-xs">Belum ada riwayat ${type}.</td></tr>`;
                 return;
             }
 
             data.forEach(item => {
-                let btnHapus = ((type === 'kas' || type === 'presensi' || type === 'anggota') && currentRole === 'pengurus') || (type === 'nilai' && currentRole === 'pembina')
+                let btnHapus = ((type === 'kas' || type === 'presensi') && currentRole === 'pengurus')
                     ? `<button onclick="deleteData('${type}', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>`
                     : '';
 
@@ -774,24 +960,88 @@
                         </td>
                         ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
                     </tr>`;
-                } else if (type === 'anggota') {
-                    html += `<tr class="hover:bg-slate-50">
-                        <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800">${item.nama}</td>
-                        <td class="p-3.5 border-b border-slate-100 text-slate-600"><span class="px-2 py-0.5 bg-slate-100 font-semibold rounded text-xs">${item.kelas}</span></td>
-                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
-                    </tr>`;
-                } else if (type === 'nilai') {
-                    html += `<tr class="hover:bg-slate-50">
-                        <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800 whitespace-nowrap">${item.nama}</td>
-                        <td class="p-3.5 border-b border-slate-100 text-slate-600 whitespace-nowrap">${item.kelas}</td>
-                        <td class="p-3.5 border-b border-slate-100 text-center font-black text-amber-600 text-base whitespace-nowrap">${item.nilai}</td>
-                        <td class="p-3.5 border-b border-slate-100 keterangan-col text-slate-700 leading-relaxed">${item.keterangan}</td>
-                        ${currentRole === 'pembina' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
-                    </tr>`;
                 }
             });
             tbody.innerHTML = html;
         }
+
+        // --- PENILAIAN MASSAL (BULK SUBMIT) ---
+        function renderBulkNilaiForm() {
+            const tbody = document.getElementById('bulkNilaiTbody');
+            if(!tbody) return;
+
+            let sorted = sortAnggotaList([...dataStore.anggota]);
+            let search = (document.getElementById('searchNilaiInput')?.value || "").toLowerCase();
+            let filtered = sorted.filter(m => m.nama.toLowerCase().includes(search) || m.kelas.toLowerCase().includes(search));
+
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400">Tidak ada siswa yang ditemukan.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach((m, idx) => {
+                // Cari nilai yang sudah tersimpan sebelumnya jika ada
+                let existingNilai = dataStore.nilai.find(n => n.memberId === m.id) || {};
+                let valNilai = existingNilai.nilai || '';
+                let valKet = existingNilai.keterangan || '';
+
+                html += `<tr class="hover:bg-slate-50">
+                    <td class="p-3.5 text-center font-bold text-slate-400">${idx + 1}</td>
+                    <td class="p-3.5 font-bold text-slate-800">${m.nama}</td>
+                    <td class="p-3.5 text-slate-600"><span class="px-2 py-0.5 bg-slate-100 font-semibold rounded text-xs">${m.kelas}</span></td>
+                    <td class="p-3.5 text-center">
+                        <input type="text" name="nilai_${m.id}" value="${valNilai}" placeholder="Cth: A" class="w-24 px-3 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-amber-600 text-sm outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                    </td>
+                    <td class="p-3.5">
+                        <input type="text" name="ket_${m.id}" value="${valKet}" placeholder="Catatan evaluasi fisik & teknik..." class="w-full px-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.handleBulkNilaiSubmit = async (e) => {
+            e.preventDefault();
+            if(dataStore.anggota.length === 0) {
+                showToast("Belum ada anggota untuk dinilai.", "error");
+                return;
+            }
+
+            let count = 0;
+            for(let m of dataStore.anggota) {
+                let inputNilai = document.querySelector(`[name="nilai_${m.id}"]`);
+                let inputKet = document.querySelector(`[name="ket_${m.id}"]`);
+                
+                if(inputNilai && inputNilai.value.trim() !== '') {
+                    let nilaiObj = {
+                        memberId: m.id,
+                        nama: m.nama,
+                        kelas: m.kelas,
+                        nilai: inputNilai.value.trim(),
+                        keterangan: inputKet ? inputKet.value.trim() : ''
+                    };
+                    
+                    // Simpan atau perbarui di state lokal & database
+                    let existingIdx = dataStore.nilai.findIndex(n => n.memberId === m.id);
+                    if(existingIdx >= 0) {
+                        dataStore.nilai[existingIdx] = { ...dataStore.nilai[existingIdx], ...nilaiObj };
+                    } else {
+                        dataStore.nilai.unshift(nilaiObj);
+                    }
+
+                    if(!isMockMode) {
+                        try {
+                            await addDoc(collection(db, paths['nilai']), { ...nilaiObj, timestamp: serverTimestamp() });
+                        } catch(err){}
+                    }
+                    count++;
+                }
+            }
+
+            showToast(`Berhasil menyimpan penilaian untuk ${count} siswa!`, "success");
+            renderBulkNilaiForm();
+        };
 
         window.viewPresensiDetail = (presensiId) => {
             const p = dataStore.presensi.find(x => x.id === presensiId);
@@ -923,18 +1173,11 @@
                 line = line.trim();
                 if (!line) continue;
 
-                // Mendukung pemisah koma (,), titik koma (;), atau Tab (dari Excel)
                 let parts = [];
-                if (line.includes(',')) {
-                    parts = line.split(',');
-                } else if (line.includes(';')) {
-                    parts = line.split(';');
-                } else if (line.includes('\t')) {
-                    parts = line.split('\t');
-                } else {
-                    // Jika hanya 1 baris atau format lain, lewati atau tangani
-                    continue;
-                }
+                if (line.includes(',')) parts = line.split(',');
+                else if (line.includes(';')) parts = line.split(';');
+                else if (line.includes('\t')) parts = line.split('\t');
+                else continue;
 
                 if (parts.length >= 2) {
                     let nama = parts[0].trim();
@@ -961,9 +1204,22 @@
                 showToast("Tidak ada data anggota untuk diekspor", "error");
                 return;
             }
-            let csvContent = "Nama Lengkap,Kelas\n";
-            dataStore.anggota.forEach(row => {
-                csvContent += `"${row.nama}","${row.kelas}"\n`;
+            let csvContent = "Nama Lengkap,Kelas,Hadir,Izin,Sakit,Alpa\n";
+            let sorted = sortAnggotaList([...dataStore.anggota]);
+            sorted.forEach(row => {
+                let hadir = 0, izin = 0, sakit = 0, alpa = 0;
+                dataStore.presensi.forEach(p => {
+                    if(p.pesertaList) {
+                        let f = p.pesertaList.find(x => x.id === row.id);
+                        if(f) {
+                            if(f.status === 'hadir') hadir++;
+                            else if(f.status === 'izin') izin++;
+                            else if(f.status === 'sakit') sakit++;
+                            else alpa++;
+                        }
+                    }
+                });
+                csvContent += `"${row.nama}","${row.kelas}",${hadir},${izin},${sakit},${alpa}\n`;
             });
             downloadCSV(csvContent, "Data_Anggota_FBC.csv");
         };
@@ -1020,7 +1276,7 @@
             const tanggal = document.getElementById('preTanggal').value;
             const materi = document.getElementById('preMateri').value;
             const fileInput = document.getElementById('preFile');
-            const checkedBoxes = document.querySelectorAll('.presensi-cb:checked');
+            const checkedBoxes = document.querySelectorAll('.modal-presensi-cb:checked');
             const checkedIds = new Set(Array.from(checkedBoxes).map(cb => cb.value));
 
             if (dataStore.anggota.length === 0) {
@@ -1052,6 +1308,7 @@
                 tanggal, materi, hadirCount: checkedBoxes.length,
                 totalCount: dataStore.anggota.length, pesertaList, fileData, fileName
             }, 'formPresensi');
+            document.getElementById('presensiCountBadge').innerText = "0 Terpilih";
         });
 
         document.getElementById('formAnggota').addEventListener('submit', (e) => {
@@ -1060,23 +1317,6 @@
                 nama: document.getElementById('angNama').value,
                 kelas: document.getElementById('angKelas').value
             }, 'formAnggota');
-        });
-
-        document.getElementById('formNilai').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const select = document.getElementById('nilMemberSelect');
-            const selectedOpt = select.options[select.selectedIndex];
-            if (!select.value) {
-                showToast("Pilih siswa terlebih dahulu!", "error");
-                return;
-            }
-            saveData('nilai', {
-                memberId: select.value,
-                nama: selectedOpt.getAttribute('data-nama'),
-                kelas: document.getElementById('nilKelas').value,
-                nilai: document.getElementById('nilAngka').value,
-                keterangan: document.getElementById('nilKet').value
-            }, 'formNilai');
         });
 
         function showToast(msg, type="success") {
