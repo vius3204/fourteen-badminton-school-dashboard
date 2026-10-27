@@ -158,7 +158,7 @@
                     </div>
 
                     <div id="boardEditContainer" class="z-10 pt-2 border-t border-white/10 flex justify-end hide">
-                        <button onclick="openBoardEditModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow transition-colors flex items-center gap-2">
+                        <button type="button" onclick="openBoardEditModal()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow transition-colors flex items-center gap-2">
                             <i class="fas fa-pen-to-square"></i> Edit Papan Informasi
                         </button>
                     </div>
@@ -516,7 +516,7 @@
     <!-- MODAL EDIT PAPAN INFORMASI -->
     <div id="boardEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 transform transition-all relative">
-            <button onclick="closeBoardEditModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
+            <button type="button" onclick="closeBoardEditModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             <h3 class="text-lg font-bold text-slate-800 mb-1">Edit Papan Informasi</h3>
             <p class="text-xs text-slate-400 mb-4">Pengumuman ini dapat dilihat oleh seluruh pengguna publik.</p>
             
@@ -529,9 +529,10 @@
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Isi Pesan / Informasi</label>
                     <textarea id="inputBoardContent" required rows="4" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-y"></textarea>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-md">
-                    Simpan Perubahan Papan
-                </button>
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeBoardEditModal()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-3 rounded-xl text-sm transition-colors">Batal</button>
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-md">Simpan</button>
+                </div>
             </form>
         </div>
     </div>
@@ -539,7 +540,7 @@
     <!-- MODAL LOGIN -->
     <div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 md:p-7 transform transition-all relative">
-            <button onclick="hideLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
+            <button type="button" onclick="hideLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             <div class="text-center mb-6">
                 <div class="w-16 h-16 bg-blue-50 border border-blue-100 rounded-2xl flex items-center justify-center p-2 mx-auto mb-3 shadow-inner">
                     <img src="https://i.postimg.cc/hhFCvNCZ/logo-fourteen-jpg.jpg" onerror="this.src='https://placehold.co/60x60/1e293b/ffffff?text=FBC';" alt="Logo" class="w-full h-full object-contain">
@@ -569,14 +570,14 @@
     <!-- MODAL DETAIL PRESENSI -->
     <div id="detailPresensiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-5 md:p-6 transform transition-all relative max-h-[85vh] flex flex-col">
-            <button onclick="hideDetailPresensiModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
+            <button type="button" onclick="hideDetailPresensiModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             <div class="mb-4 pb-3 border-b pr-8">
                 <h3 class="text-base md:text-lg font-bold text-slate-800" id="detailPresensiTitle">Detail Sesi Pertemuan</h3>
                 <p class="text-xs text-slate-500 mt-1" id="detailPresensiSub"></p>
             </div>
             <div class="overflow-y-auto flex-1 space-y-2 pr-1" id="detailPresensiList"></div>
             <div class="mt-4 pt-3 border-t text-right">
-                <button onclick="hideDetailPresensiModal()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl">Tutup</button>
+                <button type="button" onclick="hideDetailPresensiModal()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl">Tutup</button>
             </div>
         </div>
     </div>
@@ -584,7 +585,7 @@
     <!-- MODAL PREVIEW FILE -->
     <div id="previewFileModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm hide p-4">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-5 md:p-6 transform transition-all relative max-h-[90vh] flex flex-col">
-            <button onclick="hidePreviewFileModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
+            <button type="button" onclick="hidePreviewFileModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             <h3 class="text-base font-bold text-slate-800 mb-4 pb-2 border-b pr-8">Lampiran Dokumentasi</h3>
             <div class="flex-1 overflow-auto flex items-center justify-center bg-slate-100 rounded-2xl p-4 min-h-[250px]" id="previewFileContainer"></div>
         </div>
@@ -747,7 +748,9 @@
 
             onSnapshot(doc(db, 'settings', 'announcement'), (docSnap) => {
                 if(docSnap.exists()) {
-                    dataStore.board = docSnap.data();
+                    let remoteData = docSnap.data();
+                    if(remoteData.title) dataStore.board.title = remoteData.title;
+                    if(remoteData.content) dataStore.board.content = remoteData.content;
                     renderBoard();
                 }
             }, (err) => {});
@@ -817,12 +820,15 @@
             e.preventDefault();
             const title = document.getElementById('inputBoardTitle').value;
             const content = document.getElementById('inputBoardContent').value;
+            
             dataStore.board = { title, content };
-            renderBoard(); // Render langsung secara instan
+            renderBoard();
             closeBoardEditModal();
+            updateRoleUI(); // Mempertahankan role aktif agar header/sidebar tidak ikut tertutup
+
             if(!isMockMode) {
                 try {
-                    await setDoc(doc(db, 'settings', 'announcement'), { title, content });
+                    await setDoc(doc(db, 'settings', 'announcement'), { title, content }, { merge: true });
                 } catch(err){}
             }
             showToast("Papan informasi berhasil diperbarui!", "success");
@@ -1065,8 +1071,8 @@
 
                     let actionBtns = currentRole === 'pengurus'
                         ? `<div class="flex items-center justify-center gap-1">
-                                <button onclick="editAnggota('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
-                                <button onclick="deleteData('anggota', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                                <button type="button" onclick="editAnggota('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
+                                <button type="button" onclick="deleteData('anggota', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
                            </div>`
                         : '';
 
@@ -1094,13 +1100,13 @@
                 let actionBtns = '';
                 if (type === 'kas' && currentRole === 'pengurus') {
                     actionBtns = `<div class="flex items-center justify-center gap-1">
-                        <button onclick="editKas('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
-                        <button onclick="deleteData('kas', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                        <button type="button" onclick="editKas('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
+                        <button type="button" onclick="deleteData('kas', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
                     </div>`;
                 } else if (type === 'presensi' && currentRole === 'pengurus') {
                     actionBtns = `<div class="flex items-center justify-center gap-1">
-                        <button onclick="openPresensiModal('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
-                        <button onclick="deleteData('presensi', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                        <button type="button" onclick="openPresensiModal('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
+                        <button type="button" onclick="deleteData('presensi', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
                     </div>`;
                 }
 
@@ -1114,7 +1120,7 @@
                     </tr>`;
                 } else if (type === 'presensi') {
                     const fileBtn = item.fileData 
-                        ? `<button onclick="previewFile('${item.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold inline-flex items-center gap-1"><i class="fas fa-paperclip"></i> Lihat</button>`
+                        ? `<button type="button" onclick="previewFile('${item.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold inline-flex items-center gap-1"><i class="fas fa-paperclip"></i> Lihat</button>`
                         : `<span class="text-slate-300 text-xs">-</span>`;
                     
                     let cH = 0, cI = 0, cS = 0, cA = 0;
@@ -1137,7 +1143,7 @@
                         </td>
                         <td class="p-3.5 border-b border-slate-100 text-center whitespace-nowrap">${fileBtn}</td>
                         <td class="p-3.5 border-b border-slate-100 text-center whitespace-nowrap">
-                            <button onclick="viewPresensiDetail('${item.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">Detail</button>
+                            <button type="button" onclick="viewPresensiDetail('${item.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">Detail</button>
                         </td>
                         ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${actionBtns}</td>` : ''}
                     </tr>`;
