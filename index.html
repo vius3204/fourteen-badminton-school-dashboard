@@ -131,7 +131,6 @@
             <button onclick="showLoginModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-md text-xs font-bold transition-colors shrink-0 ml-2">LOGIN</button>
         </div>
 
-        <!-- Tambahan padding bawah (pb-32) agar scroll leluasa sampai bawah di HP -->
         <div class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32">
             
             <!-- OVERVIEW -->
@@ -167,7 +166,7 @@
                     <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
                 </div>
 
-                <!-- Kartu Statistik (Grid Responsif 5 Kolom tanpa keluar range) -->
+                <!-- Kartu Statistik -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                     <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3">
                         <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg md:text-xl shrink-0"><i class="fas fa-wallet"></i></div>
@@ -215,8 +214,9 @@
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-1 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 role-pengurus-only">
-                        <h3 class="text-base font-bold text-slate-800 mb-4 pb-2 border-b">Tambah Transaksi Kas</h3>
+                        <h3 id="kasFormTitle" class="text-base font-bold text-slate-800 mb-4 pb-2 border-b">Tambah Transaksi Kas</h3>
                         <form id="formKas" class="space-y-4">
+                            <input type="hidden" id="editKasId">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Transaksi</label>
                                 <select id="kasTipe" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white">
@@ -232,9 +232,12 @@
                                 <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan / Keperluan</label>
                                 <input type="text" id="kasKeterangan" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Iuran Kas Bulanan">
                             </div>
-                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm">
-                                Simpan Transaksi Kas
-                            </button>
+                            <div class="flex gap-2">
+                                <button type="submit" id="btnSubmitKas" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm">
+                                    Simpan Transaksi Kas
+                                </button>
+                                <button type="button" id="btnCancelKas" onclick="resetKasForm()" class="hide px-4 py-3 bg-slate-200 text-slate-700 font-medium rounded-xl text-sm">Batal</button>
+                            </div>
                         </form>
                     </div>
                     <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[450px]">
@@ -248,7 +251,7 @@
                                         <th class="p-3.5">Tanggal</th>
                                         <th class="p-3.5">Keterangan</th>
                                         <th class="p-3.5 text-right">Nominal</th>
-                                        <th class="p-3.5 text-center role-pengurus-only w-16">Aksi</th>
+                                        <th class="p-3.5 text-center role-pengurus-only w-24">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableKas" class="divide-y divide-slate-100 text-xs md:text-sm"></tbody>
@@ -269,14 +272,12 @@
                         <button onclick="exportPresensiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
                             <i class="fas fa-file-csv text-base"></i> Ekspor CSV
                         </button>
-                        <!-- Tombol Tambah Sesi Pertemuan Sesuai Permintaan -->
                         <button onclick="openPresensiModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors role-pengurus-only">
                             <i class="fas fa-plus text-base"></i> Tambah Sesi Pertemuan
                         </button>
                     </div>
                 </div>
 
-                <!-- Tabel Riwayat Pertemuan & Presensi (Default Tampilan Utama) -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[500px]">
                     <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
                         <span class="font-bold text-slate-800 text-xs md:text-sm">Riwayat Pertemuan & Rekap Kehadiran</span>
@@ -290,7 +291,7 @@
                                     <th class="p-3.5 text-center">Kehadiran (H/I/S/A)</th>
                                     <th class="p-3.5 text-center">Lampiran</th>
                                     <th class="p-3.5 text-center">Detail</th>
-                                    <th class="p-3.5 text-center role-pengurus-only w-16">Aksi</th>
+                                    <th class="p-3.5 text-center role-pengurus-only w-24">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="tablePresensi" class="divide-y divide-slate-100 text-xs md:text-sm"></tbody>
@@ -314,8 +315,9 @@
                     <div class="lg:col-span-1 space-y-5">
                         <!-- Form Satuan -->
                         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 role-pengurus-only">
-                            <h3 class="text-base font-bold text-slate-800 mb-4 pb-2 border-b">Tambah Siswa Satuan</h3>
+                            <h3 id="anggotaFormTitle" class="text-base font-bold text-slate-800 mb-4 pb-2 border-b">Tambah Siswa Satuan</h3>
                             <form id="formAnggota" class="space-y-4">
+                                <input type="hidden" id="editAnggotaId">
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap Siswa</label>
                                     <input type="text" id="angNama" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: Ahmad Rizky">
@@ -324,9 +326,12 @@
                                     <label class="block text-xs font-semibold text-slate-700 mb-1">Kelas (Cth: X-1, XI-7)</label>
                                     <input type="text" id="angKelas" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cth: XI-7">
                                 </div>
-                                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm">
-                                    Simpan Data Anggota
-                                </button>
+                                <div class="flex gap-2">
+                                    <button type="submit" id="btnSubmitAnggota" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl text-sm transition-colors shadow-sm">
+                                        Simpan Data Anggota
+                                    </button>
+                                    <button type="button" id="btnCancelAnggota" onclick="resetAnggotaForm()" class="hide px-4 py-3 bg-slate-200 text-slate-700 font-medium rounded-xl text-sm">Batal</button>
+                                </div>
                             </form>
                         </div>
 
@@ -370,7 +375,6 @@
                     <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col min-h-[450px]">
                         <div class="p-4 bg-slate-50 border-b flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
                             <span class="font-bold text-slate-800 text-xs md:text-sm">Daftar Siswa Terdaftar</span>
-                            <!-- Search Bar Anggota -->
                             <div class="relative">
                                 <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                                 <input type="text" id="searchAnggotaInput" oninput="renderTable('anggota')" placeholder="Cari nama atau kelas..." class="w-full sm:w-60 pl-8 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-blue-500 bg-white">
@@ -386,7 +390,7 @@
                                         <th class="p-3.5 text-center text-blue-600">Izin</th>
                                         <th class="p-3.5 text-center text-amber-600">Sakit</th>
                                         <th class="p-3.5 text-center text-rose-600">Alpa</th>
-                                        <th class="p-3.5 text-center role-pengurus-only w-16">Aksi</th>
+                                        <th class="p-3.5 text-center role-pengurus-only w-24">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableAnggota" class="divide-y divide-slate-100 text-xs md:text-sm"></tbody>
@@ -404,7 +408,6 @@
                         <p class="text-slate-500 text-xs md:text-sm">Evaluasi seluruh siswa sekaligus dalam satu halaman (Bulk Submit).</p>
                     </div>
                     <div class="flex items-center gap-3 self-start md:self-auto">
-                        <!-- Search Bar Penilaian -->
                         <div class="relative">
                             <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                             <input type="text" id="searchNilaiInput" oninput="renderBulkNilaiForm()" placeholder="Cari siswa/kelas..." class="w-full sm:w-60 pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
@@ -415,7 +418,6 @@
                     </div>
                 </div>
 
-                <!-- Form Penilaian Massal -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
                     <div class="p-4 bg-amber-50 border-b border-amber-200 flex items-center justify-between">
                         <div class="flex items-center gap-2 text-amber-900 font-bold text-xs md:text-sm">
@@ -434,14 +436,16 @@
                                         <th class="p-3.5 w-24">Kelas</th>
                                         <th class="p-3.5 w-32 text-center">Predikat / Nilai</th>
                                         <th class="p-3.5">Deskripsi / Catatan Evaluasi</th>
+                                        <th class="p-3.5 text-center role-pembina-only w-16">Edit</th>
                                     </tr>
                                 </thead>
                                 <tbody id="bulkNilaiTbody" class="divide-y divide-slate-100 text-xs md:text-sm">
-                                    <tr><td colspan="5" class="p-8 text-center text-slate-400">Belum ada data anggota.</td></tr>
+                                    <tr><td colspan="6" class="p-8 text-center text-slate-400">Belum ada data anggota.</td></tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-4 bg-slate-50 border-t flex justify-end role-pembina-only">
+                        <div class="p-4 bg-slate-50 border-t flex justify-between items-center role-pembina-only">
+                            <span class="text-xs text-slate-500">Anda dapat mengubah penilaian per siswa menggunakan ikon edit pada baris, atau simpan massal.</span>
                             <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl text-sm shadow transition-colors flex items-center gap-2">
                                 <i class="fas fa-floppy-disk"></i> Simpan Seluruh Penilaian (Bulk Submit)
                             </button>
@@ -453,18 +457,19 @@
         </div>
     </main>
 
-    <!-- MODAL TAMBAH SESI PERTEMUAN (FORM PRESENSI LENGKAP DENGAN PILIHAN HADIR, IZIN, SAKIT, ALPA) -->
+    <!-- MODAL TAMBAH/EDIT SESI PERTEMUAN -->
     <div id="presensiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hide p-4">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 transform transition-all relative max-h-[90vh] flex flex-col">
             <div class="flex items-center justify-between pb-3 border-b mb-4">
                 <div>
-                    <h3 class="text-base font-bold text-slate-800">Catat Sesi Pertemuan & Presensi</h3>
+                    <h3 id="presensiModalTitle" class="text-base font-bold text-slate-800">Catat Sesi Pertemuan & Presensi</h3>
                     <p class="text-xs text-slate-500">Atur status kehadiran (Hadir, Izin, Sakit, Alpa) untuk setiap siswa.</p>
                 </div>
                 <button type="button" onclick="closePresensiModal()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             </div>
 
             <form id="formPresensi" onsubmit="handlePresensiSubmit(event)" class="space-y-4 overflow-y-auto flex-1 pr-1">
+                <input type="hidden" id="editPresensiId">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Pertemuan</label>
@@ -490,7 +495,6 @@
                         </div>
                     </div>
                     
-                    <!-- Search Bar di Modal Presensi -->
                     <div class="relative mb-3">
                         <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                         <input type="text" id="searchModalPresensi" oninput="renderModalPresensiStudents()" placeholder="Cari nama atau kelas siswa..." class="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none bg-slate-50">
@@ -503,7 +507,7 @@
 
                 <div class="pt-3 border-t flex justify-end gap-3">
                     <button type="button" onclick="closePresensiModal()" class="px-4 py-2.5 bg-slate-200 text-slate-700 text-xs font-bold rounded-xl">Batal</button>
-                    <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow">Simpan Sesi Presensi</button>
+                    <button type="submit" id="btnSubmitPresensiModal" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow">Simpan Sesi Presensi</button>
                 </div>
             </form>
         </div>
@@ -595,7 +599,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, setDoc, doc, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, setDoc, doc, updateDoc, onSnapshot, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const ACCOUNTS = {
             "PENGURUSESKUL": { pass: "FBC2K26", role: "pengurus", label: "Pengurus Eskul" },
@@ -814,7 +818,7 @@
             const title = document.getElementById('inputBoardTitle').value;
             const content = document.getElementById('inputBoardContent').value;
             dataStore.board = { title, content };
-            renderBoard();
+            renderBoard(); // Render langsung secara instan
             closeBoardEditModal();
             if(!isMockMode) {
                 try {
@@ -824,15 +828,110 @@
             showToast("Papan informasi berhasil diperbarui!", "success");
         }
 
-        // --- KONTROL MODAL TAMBAH SESI PRESENSI ---
-        window.openPresensiModal = () => {
+        // --- EDIT & SAVE KAS ---
+        document.getElementById('formKas').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editKasId').value;
+            const dataObj = {
+                tipe: document.getElementById('kasTipe').value,
+                nominal: Number(document.getElementById('kasNominal').value),
+                keterangan: document.getElementById('kasKeterangan').value
+            };
+
+            if (editId) {
+                await updateData('kas', editId, dataObj, 'formKas');
+                resetKasForm();
+            } else {
+                await saveData('kas', dataObj, 'formKas');
+            }
+        });
+
+        window.editKas = (id) => {
+            const item = dataStore.kas.find(x => x.id === id);
+            if(!item) return;
+            document.getElementById('editKasId').value = item.id;
+            document.getElementById('kasTipe').value = item.tipe;
+            document.getElementById('kasNominal').value = item.nominal;
+            document.getElementById('kasKeterangan').value = item.keterangan;
+            document.getElementById('kasFormTitle').innerText = "Edit Transaksi Kas";
+            document.getElementById('btnSubmitKas').innerText = "Perbarui Transaksi";
+            document.getElementById('btnCancelKas').classList.remove('hide');
+            document.getElementById('formKas').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.resetKasForm = () => {
+            document.getElementById('formKas').reset();
+            document.getElementById('editKasId').value = '';
+            document.getElementById('kasFormTitle').innerText = "Tambah Transaksi Kas";
+            document.getElementById('btnSubmitKas').innerText = "Simpan Transaksi Kas";
+            document.getElementById('btnCancelKas').classList.add('hide');
+        };
+
+        // --- EDIT & SAVE ANGGOTA ---
+        document.getElementById('formAnggota').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editAnggotaId').value;
+            const dataObj = {
+                nama: document.getElementById('angNama').value.trim(),
+                kelas: document.getElementById('angKelas').value.trim()
+            };
+
+            if (editId) {
+                await updateData('anggota', editId, dataObj, 'formAnggota');
+                resetAnggotaForm();
+            } else {
+                await saveData('anggota', dataObj, 'formAnggota');
+            }
+        });
+
+        window.editAnggota = (id) => {
+            const item = dataStore.anggota.find(x => x.id === id);
+            if(!item) return;
+            document.getElementById('editAnggotaId').value = item.id;
+            document.getElementById('angNama').value = item.nama;
+            document.getElementById('angKelas').value = item.kelas;
+            document.getElementById('anggotaFormTitle').innerText = "Edit Data Siswa";
+            document.getElementById('btnSubmitAnggota').innerText = "Perbarui Data Anggota";
+            document.getElementById('btnCancelAnggota').classList.remove('hide');
+            document.getElementById('formAnggota').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.resetAnggotaForm = () => {
+            document.getElementById('formAnggota').reset();
+            document.getElementById('editAnggotaId').value = '';
+            document.getElementById('anggotaFormTitle').innerText = "Tambah Siswa Satuan";
+            document.getElementById('btnSubmitAnggota').innerText = "Simpan Data Anggota";
+            document.getElementById('btnCancelAnggota').classList.add('hide');
+        };
+
+        // --- EDIT & SAVE PRESENSI ---
+        window.openPresensiModal = (editId = null) => {
             document.getElementById('formPresensi').reset();
-            renderModalPresensiStudents();
+            document.getElementById('editPresensiId').value = "";
+            document.getElementById('presensiModalTitle').innerText = "Catat Sesi Pertemuan & Presensi";
+            document.getElementById('btnSubmitPresensiModal').innerText = "Simpan Sesi Presensi";
+
+            if (editId) {
+                const item = dataStore.presensi.find(x => x.id === editId);
+                if (item) {
+                    document.getElementById('editPresensiId').value = item.id;
+                    document.getElementById('preTanggal').value = item.tanggal || "";
+                    document.getElementById('preMateri').value = item.materi || "";
+                    document.getElementById('presensiModalTitle').innerText = "Edit Sesi Pertemuan & Presensi";
+                    document.getElementById('btnSubmitPresensiModal').innerText = "Perbarui Sesi Presensi";
+                    
+                    renderModalPresensiStudents(item.pesertaList);
+                } else {
+                    renderModalPresensiStudents();
+                }
+            } else {
+                renderModalPresensiStudents();
+            }
             document.getElementById('presensiModal').classList.remove('hide');
         };
         window.closePresensiModal = () => document.getElementById('presensiModal').classList.add('hide');
 
-        function renderModalPresensiStudents() {
+        function renderModalPresensiStudents(existingPeserta = null) {
             const container = document.getElementById('modalPresensiListContainer');
             const searchVal = (document.getElementById('searchModalPresensi')?.value || "").toLowerCase();
             let sorted = sortAnggotaList([...dataStore.anggota]);
@@ -843,28 +942,36 @@
                 return;
             }
 
-            container.innerHTML = filtered.map(m => `
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 gap-2">
-                    <div>
-                        <span class="text-xs font-bold text-slate-800 block">${m.nama}</span>
-                        <span class="text-[10px] text-slate-500 font-semibold">${m.kelas}</span>
+            container.innerHTML = filtered.map(m => {
+                let defaultStatus = 'hadir';
+                if(existingPeserta) {
+                    let found = existingPeserta.find(x => x.id === m.id);
+                    if(found) defaultStatus = found.status;
+                }
+
+                return `
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 gap-2">
+                        <div>
+                            <span class="text-xs font-bold text-slate-800 block">${m.nama}</span>
+                            <span class="text-[10px] text-slate-500 font-semibold">${m.kelas}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 self-end sm:self-auto">
+                            <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                                <input type="radio" name="status_${m.id}" value="hadir" ${defaultStatus==='hadir'?'checked':''} class="accent-emerald-600"> Hadir
+                            </label>
+                            <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
+                                <input type="radio" name="status_${m.id}" value="izin" ${defaultStatus==='izin'?'checked':''} class="accent-blue-600"> Izin
+                            </label>
+                            <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                                <input type="radio" name="status_${m.id}" value="sakit" ${defaultStatus==='sakit'?'checked':''} class="accent-amber-600"> Sakit
+                            </label>
+                            <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1">
+                                <input type="radio" name="status_${m.id}" value="alpa" ${defaultStatus==='alpa'?'checked':''} class="accent-rose-600"> Alpa
+                            </label>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-1.5 self-end sm:self-auto">
-                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                            <input type="radio" name="status_${m.id}" value="hadir" checked class="accent-emerald-600"> Hadir
-                        </label>
-                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1">
-                            <input type="radio" name="status_${m.id}" value="izin" class="accent-blue-600"> Izin
-                        </label>
-                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
-                            <input type="radio" name="status_${m.id}" value="sakit" class="accent-amber-600"> Sakit
-                        </label>
-                        <label class="cursor-pointer px-2 py-1 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1">
-                            <input type="radio" name="status_${m.id}" value="alpa" class="accent-rose-600"> Alpa
-                        </label>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         window.setAllAttendanceStatus = (status) => {
@@ -872,6 +979,59 @@
                 let radio = document.querySelector(`input[name="status_${m.id}"][value="${status}"]`);
                 if(radio) radio.checked = true;
             });
+        };
+
+        window.handlePresensiSubmit = async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editPresensiId').value;
+            const tanggal = document.getElementById('preTanggal').value;
+            const materi = document.getElementById('preMateri').value;
+            const fileInput = document.getElementById('preFile');
+
+            if (dataStore.anggota.length === 0) {
+                showToast("Tambahkan data anggota terlebih dahulu!", "error");
+                return;
+            }
+
+            const pesertaList = dataStore.anggota.map(m => {
+                let selectedRadio = document.querySelector(`input[name="status_${m.id}"]:checked`);
+                return {
+                    id: m.id,
+                    nama: m.nama,
+                    kelas: m.kelas,
+                    status: selectedRadio ? selectedRadio.value : 'alpa'
+                };
+            });
+
+            let fileData = null, fileName = null;
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast("Maksimal ukuran file 2MB!", "error");
+                    return;
+                }
+                fileName = file.name;
+                fileData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (evt) => resolve(evt.target.result);
+                    reader.readAsDataURL(file);
+                });
+            } else if (editId) {
+                let existing = dataStore.presensi.find(x => x.id === editId);
+                if(existing) {
+                    fileData = existing.fileData || null;
+                    fileName = existing.fileName || null;
+                }
+            }
+
+            let dataObj = { tanggal, materi, pesertaList, fileData, fileName };
+            if (editId) {
+                await updateData('presensi', editId, dataObj, null);
+            } else {
+                await saveData('presensi', dataObj, null);
+            }
+
+            closePresensiModal();
         };
 
         function renderTable(type) {
@@ -903,8 +1063,11 @@
                         }
                     });
 
-                    let btnHapus = currentRole === 'pengurus'
-                        ? `<button onclick="deleteData('anggota', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>`
+                    let actionBtns = currentRole === 'pengurus'
+                        ? `<div class="flex items-center justify-center gap-1">
+                                <button onclick="editAnggota('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
+                                <button onclick="deleteData('anggota', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                           </div>`
                         : '';
 
                     html += `<tr class="hover:bg-slate-50">
@@ -914,7 +1077,7 @@
                         <td class="p-3.5 border-b border-slate-100 text-center font-bold text-blue-600">${izin}</td>
                         <td class="p-3.5 border-b border-slate-100 text-center font-bold text-amber-600">${sakit}</td>
                         <td class="p-3.5 border-b border-slate-100 text-center font-bold text-rose-600">${alpa}</td>
-                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
+                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${actionBtns}</td>` : ''}
                     </tr>`;
                 });
                 tbody.innerHTML = html;
@@ -928,9 +1091,18 @@
             }
 
             data.forEach(item => {
-                let btnHapus = ((type === 'kas' || type === 'presensi') && currentRole === 'pengurus')
-                    ? `<button onclick="deleteData('${type}', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>`
-                    : '';
+                let actionBtns = '';
+                if (type === 'kas' && currentRole === 'pengurus') {
+                    actionBtns = `<div class="flex items-center justify-center gap-1">
+                        <button onclick="editKas('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
+                        <button onclick="deleteData('kas', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                    </div>`;
+                } else if (type === 'presensi' && currentRole === 'pengurus') {
+                    actionBtns = `<div class="flex items-center justify-center gap-1">
+                        <button onclick="openPresensiModal('${item.id}')" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Edit"><i class="fas fa-pen-to-square"></i></button>
+                        <button onclick="deleteData('presensi', '${item.id}')" class="p-2 text-slate-400 hover:text-red-600 transition-colors" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                    </div>`;
+                }
 
                 if (type === 'kas') {
                     const isM = item.tipe === 'masuk';
@@ -938,14 +1110,13 @@
                         <td class="p-3.5 border-b border-slate-100 font-medium text-slate-600 text-xs whitespace-nowrap">${formatTgl(item.timestamp?.toMillis())}</td>
                         <td class="p-3.5 border-b border-slate-100 font-bold text-slate-800">${item.keterangan}</td>
                         <td class="p-3.5 border-b border-slate-100 text-right font-bold whitespace-nowrap ${isM?'text-emerald-600':'text-rose-600'}">${isM?'+':'-'} ${formatRp(item.nominal)}</td>
-                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
+                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${actionBtns}</td>` : ''}
                     </tr>`;
                 } else if (type === 'presensi') {
                     const fileBtn = item.fileData 
                         ? `<button onclick="previewFile('${item.id}')" class="px-2.5 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-bold inline-flex items-center gap-1"><i class="fas fa-paperclip"></i> Lihat</button>`
                         : `<span class="text-slate-300 text-xs">-</span>`;
                     
-                    // Hitung ringkasan H / I / S / A
                     let cH = 0, cI = 0, cS = 0, cA = 0;
                     if(item.pesertaList) {
                         item.pesertaList.forEach(p => {
@@ -968,7 +1139,7 @@
                         <td class="p-3.5 border-b border-slate-100 text-center whitespace-nowrap">
                             <button onclick="viewPresensiDetail('${item.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">Detail</button>
                         </td>
-                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${btnHapus}</td>` : ''}
+                        ${currentRole === 'pengurus' ? `<td class="p-3.5 border-b border-slate-100 text-center">${actionBtns}</td>` : ''}
                     </tr>`;
                 }
             });
@@ -984,7 +1155,7 @@
             let filtered = sorted.filter(m => m.nama.toLowerCase().includes(search) || m.kelas.toLowerCase().includes(search));
 
             if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400">Tidak ada siswa yang ditemukan.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400">Tidak ada siswa yang ditemukan.</td></tr>`;
                 return;
             }
 
@@ -994,20 +1165,53 @@
                 let valNilai = existingNilai.nilai || '';
                 let valKet = existingNilai.keterangan || '';
 
+                let editSingleBtn = currentRole === 'pembina' 
+                    ? `<button type="button" onclick="saveSingleNilai('${m.id}')" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold rounded-lg text-xs" title="Simpan Baris Ini"><i class="fas fa-check"></i></button>`
+                    : '';
+
                 html += `<tr class="hover:bg-slate-50">
                     <td class="p-3.5 text-center font-bold text-slate-400">${idx + 1}</td>
                     <td class="p-3.5 font-bold text-slate-800">${m.nama}</td>
                     <td class="p-3.5 text-slate-600"><span class="px-2 py-0.5 bg-slate-100 font-semibold rounded text-xs">${m.kelas}</span></td>
                     <td class="p-3.5 text-center">
-                        <input type="text" name="nilai_${m.id}" value="${valNilai}" placeholder="Cth: A" class="w-24 px-3 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-amber-600 text-sm outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                        <input type="text" id="nilai_input_${m.id}" value="${valNilai}" placeholder="Cth: A" class="w-24 px-3 py-1.5 border border-slate-300 rounded-xl text-center font-bold text-amber-600 text-sm outline-none focus:ring-2 focus:ring-amber-500 bg-white">
                     </td>
                     <td class="p-3.5">
-                        <input type="text" name="ket_${m.id}" value="${valKet}" placeholder="Catatan evaluasi fisik & teknik..." class="w-full px-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
+                        <input type="text" id="ket_input_${m.id}" value="${valKet}" placeholder="Catatan evaluasi fisik & teknik..." class="w-full px-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
                     </td>
+                    ${currentRole === 'pembina' ? `<td class="p-3.5 text-center">${editSingleBtn}</td>` : ''}
                 </tr>`;
             });
             tbody.innerHTML = html;
         }
+
+        window.saveSingleNilai = async (memberId) => {
+            const m = dataStore.anggota.find(x => x.id === memberId);
+            if(!m) return;
+            let valNilai = document.getElementById(`nilai_input_${m.id}`).value.trim();
+            let valKet = document.getElementById(`ket_input_${m.id}`).value.trim();
+
+            if(!valNilai) {
+                showToast("Nilai/Predikat tidak boleh kosong!", "error");
+                return;
+            }
+
+            let nilaiObj = {
+                memberId: m.id,
+                nama: m.nama,
+                kelas: m.kelas,
+                nilai: valNilai,
+                keterangan: valKet
+            };
+
+            let existing = dataStore.nilai.find(n => n.memberId === m.id);
+            if(existing && existing.id) {
+                await updateData('nilai', existing.id, nilaiObj, null);
+            } else {
+                await saveData('nilai', nilaiObj, null);
+            }
+            showToast(`Nilai ${m.nama} berhasil diperbarui!`, "success");
+        };
 
         window.handleBulkNilaiSubmit = async (e) => {
             e.preventDefault();
@@ -1018,8 +1222,8 @@
 
             let count = 0;
             for(let m of dataStore.anggota) {
-                let inputNilai = document.querySelector(`[name="nilai_${m.id}"]`);
-                let inputKet = document.querySelector(`[name="ket_${m.id}"]`);
+                let inputNilai = document.getElementById(`nilai_input_${m.id}`);
+                let inputKet = document.getElementById(`ket_input_${m.id}`);
                 
                 if(inputNilai && inputNilai.value.trim() !== '') {
                     let nilaiObj = {
@@ -1030,24 +1234,17 @@
                         keterangan: inputKet ? inputKet.value.trim() : ''
                     };
                     
-                    let existingIdx = dataStore.nilai.findIndex(n => n.memberId === m.id);
-                    if(existingIdx >= 0) {
-                        dataStore.nilai[existingIdx] = { ...dataStore.nilai[existingIdx], ...nilaiObj };
+                    let existing = dataStore.nilai.find(n => n.memberId === m.id);
+                    if(existing && existing.id) {
+                        await updateData('nilai', existing.id, nilaiObj, null);
                     } else {
-                        dataStore.nilai.unshift(nilaiObj);
-                    }
-
-                    if(!isMockMode) {
-                        try {
-                            await addDoc(collection(db, paths['nilai']), { ...nilaiObj, timestamp: serverTimestamp() });
-                        } catch(err){}
+                        await saveData('nilai', nilaiObj, null);
                     }
                     count++;
                 }
             }
 
             showToast(`Berhasil menyimpan penilaian untuk ${count} siswa!`, "success");
-            renderBulkNilaiForm();
         };
 
         window.viewPresensiDetail = (presensiId) => {
@@ -1103,6 +1300,24 @@
                 if (formId) document.getElementById(formId).reset();
                 showToast("Data berhasil disimpan!", "success");
             } catch(e) { showToast("Gagal menyimpan data.", "error"); }
+        }
+
+        async function updateData(type, id, dataObj, formId) {
+            if (isMockMode) {
+                let idx = dataStore[type].findIndex(x => x.id === id);
+                if(idx >= 0) {
+                    dataStore[type][idx] = { ...dataStore[type][idx], ...dataObj };
+                }
+                if (formId) document.getElementById(formId).reset();
+                renderAll();
+                showToast("Data diperbarui (Mode Lokal)", "success");
+                return;
+            }
+            try {
+                await updateDoc(doc(db, paths[type], id), dataObj);
+                if (formId) document.getElementById(formId).reset();
+                showToast("Data berhasil diperbarui!", "success");
+            } catch(e) { showToast("Gagal memperbarui data.", "error"); }
         }
 
         window.deleteData = async (type, id) => {
@@ -1283,66 +1498,6 @@
             document.body.removeChild(link);
             showToast(`File ${filename} berhasil diunduh!`, "success");
         }
-
-        document.getElementById('formKas').addEventListener('submit', (e) => {
-            e.preventDefault();
-            saveData('kas', {
-                tipe: document.getElementById('kasTipe').value,
-                nominal: Number(document.getElementById('kasNominal').value),
-                keterangan: document.getElementById('kasKeterangan').value
-            }, 'formKas');
-        });
-
-        window.handlePresensiSubmit = async (e) => {
-            e.preventDefault();
-            const tanggal = document.getElementById('preTanggal').value;
-            const materi = document.getElementById('preMateri').value;
-            const fileInput = document.getElementById('preFile');
-
-            if (dataStore.anggota.length === 0) {
-                showToast("Tambahkan data anggota terlebih dahulu!", "error");
-                return;
-            }
-
-            const pesertaList = dataStore.anggota.map(m => {
-                let selectedRadio = document.querySelector(`input[name="status_${m.id}"]:checked`);
-                return {
-                    id: m.id,
-                    nama: m.nama,
-                    kelas: m.kelas,
-                    status: selectedRadio ? selectedRadio.value : 'alpa'
-                };
-            });
-
-            let fileData = null, fileName = null;
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) {
-                    showToast("Maksimal ukuran file 2MB!", "error");
-                    return;
-                }
-                fileName = file.name;
-                fileData = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => resolve(evt.target.result);
-                    reader.readAsDataURL(file);
-                });
-            }
-
-            await saveData('presensi', {
-                tanggal, materi, pesertaList, fileData, fileName
-            }, null);
-
-            closePresensiModal();
-        };
-
-        document.getElementById('formAnggota').addEventListener('submit', (e) => {
-            e.preventDefault();
-            saveData('anggota', {
-                nama: document.getElementById('angNama').value,
-                kelas: document.getElementById('angKelas').value
-            }, 'formAnggota');
-        });
 
         function showToast(msg, type="success") {
             const t = document.getElementById('toastNotif');
