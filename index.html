@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS untuk parsing & ekspor file Excel (.xlsx) -->
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
@@ -130,7 +131,6 @@
             <button type="button" onclick="showLoginModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-2.5 py-1 rounded-md text-xs font-bold transition-colors shrink-0 ml-2">LOGIN</button>
         </div>
 
-        <!-- Tambahkan ID mainScrollContainer untuk mencegah bug scroll edit -->
         <div id="mainScrollContainer" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32 scroll-smooth">
             
             <!-- OVERVIEW -->
@@ -269,8 +269,8 @@
                         <p class="text-slate-500 text-xs md:text-sm">Riwayat pertemuan dan presensi latihan anggota.</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
-                        <button type="button" onclick="exportPresensiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
-                            <i class="fas fa-file-csv text-base"></i> Ekspor CSV
+                        <button type="button" onclick="exportPresensiExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                            <i class="fas fa-file-excel text-base"></i> Ekspor Excel
                         </button>
                         <button type="button" onclick="openPresensiModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors role-pengurus-only">
                             <i class="fas fa-plus text-base"></i> Tambah Sesi Pertemuan
@@ -307,8 +307,8 @@
                         <h1 class="text-2xl font-bold text-slate-800">Data Anggota Eskul</h1>
                         <p class="text-slate-500 text-xs md:text-sm">Daftar seluruh siswa terurut otomatis beserta rekap kehadiran.</p>
                     </div>
-                    <button type="button" onclick="exportAnggotaCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
-                        <i class="fas fa-file-csv text-base"></i> Ekspor Data Anggota CSV
+                    <button type="button" onclick="exportAnggotaExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors self-start md:self-auto">
+                        <i class="fas fa-file-excel text-base"></i> Ekspor Data Anggota
                     </button>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -412,8 +412,8 @@
                             <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                             <input type="text" id="searchNilaiInput" oninput="renderBulkNilaiForm()" placeholder="Cari siswa/kelas..." class="w-full sm:w-60 pl-8 pr-3 py-2 border border-slate-300 rounded-xl text-xs outline-none focus:ring-2 focus:ring-amber-500 bg-white">
                         </div>
-                        <button type="button" onclick="exportNilaiCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
-                            <i class="fas fa-file-csv text-base"></i> Ekspor CSV
+                        <button type="button" onclick="exportNilaiExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors">
+                            <i class="fas fa-file-excel text-base"></i> Ekspor Excel
                         </button>
                     </div>
                 </div>
@@ -497,7 +497,6 @@
                     
                     <div class="relative mb-3">
                         <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 text-xs"></i>
-                        <!-- Menambahkan renderModalPresensiStudents pada saat mengetik di search -->
                         <input type="text" id="searchModalPresensi" oninput="renderModalPresensiStudents()" placeholder="Cari nama atau kelas siswa..." class="w-full pl-8 pr-3 py-1.5 border border-slate-300 rounded-xl text-xs outline-none bg-slate-50">
                     </div>
 
@@ -570,15 +569,21 @@
 
     <!-- MODAL DETAIL PRESENSI -->
     <div id="detailPresensiModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 hide p-4">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-5 md:p-6 transform transition-all relative max-h-[85vh] flex flex-col">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-5 md:p-6 transform transition-all relative max-h-[85vh] flex flex-col">
             <button type="button" onclick="hideDetailPresensiModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-2"><i class="fas fa-xmark text-lg"></i></button>
             <div class="mb-4 pb-3 border-b pr-8">
                 <h3 class="text-base md:text-lg font-bold text-slate-800" id="detailPresensiTitle">Detail Sesi Pertemuan</h3>
                 <p class="text-xs text-slate-500 mt-1" id="detailPresensiSub"></p>
             </div>
-            <div class="overflow-y-auto flex-1 space-y-2 pr-1" id="detailPresensiList"></div>
-            <div class="mt-4 pt-3 border-t text-right">
-                <button type="button" onclick="hideDetailPresensiModal()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl">Tutup</button>
+            
+            <!-- List tampilan baru sama seperti Form Pengisian -->
+            <div class="overflow-y-auto flex-1 space-y-2 pr-1 bg-slate-50/50 rounded-xl p-3 border border-slate-100" id="detailPresensiList"></div>
+            
+            <div class="mt-4 pt-3 border-t flex items-center justify-between gap-3">
+                <button type="button" id="btnExportDetail" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm transition-colors">
+                    <i class="fas fa-file-excel"></i> Ekspor Sesi Ini
+                </button>
+                <button type="button" onclick="hideDetailPresensiModal()" class="px-6 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl">Tutup</button>
             </div>
         </div>
     </div>
@@ -629,7 +634,6 @@
         let dataStore = { kas: [], presensi: [], anggota: [], nilai: [], board: { title: "Jadwal & Pengumuman Resmi FBC", content: "Selamat datang di portal resmi Fourteen Badminton Club. Silakan cek jadwal latihan rutin dan informasi penting lainnya melalui papan pengumuman ini." } };
         let isMockMode = false;
 
-        // --- TAMBAHAN UNTUK STATE MANAGEMENT SEARCH PRESENSI ---
         window.tempAttendanceState = {};
 
         async function initApp() {
@@ -844,7 +848,6 @@
             showToast("Papan informasi berhasil diperbarui!", "success");
         });
 
-        // --- EDIT & SAVE KAS ---
         document.getElementById('formKas').addEventListener('submit', async (e) => {
             e.preventDefault();
             const editId = document.getElementById('editKasId').value;
@@ -872,7 +875,6 @@
             document.getElementById('kasFormTitle').innerText = "Edit Transaksi Kas";
             document.getElementById('btnSubmitKas').innerText = "Perbarui Transaksi";
             document.getElementById('btnCancelKas').classList.remove('hide');
-            // MENGGUNAKAN scrollTo UNTUK MENGHINDARI BUG BLANK/HEADER HILANG
             document.getElementById('mainScrollContainer').scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -884,7 +886,6 @@
             document.getElementById('btnCancelKas').classList.add('hide');
         };
 
-        // --- EDIT & SAVE ANGGOTA ---
         document.getElementById('formAnggota').addEventListener('submit', async (e) => {
             e.preventDefault();
             const editId = document.getElementById('editAnggotaId').value;
@@ -910,7 +911,6 @@
             document.getElementById('anggotaFormTitle').innerText = "Edit Data Siswa";
             document.getElementById('btnSubmitAnggota').innerText = "Perbarui Data Anggota";
             document.getElementById('btnCancelAnggota').classList.remove('hide');
-            // MENGGUNAKAN scrollTo UNTUK MENGHINDARI BUG BLANK/HEADER HILANG
             document.getElementById('mainScrollContainer').scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -922,26 +922,22 @@
             document.getElementById('btnCancelAnggota').classList.add('hide');
         };
 
-        // --- UPDATE STATE SAAT USER MENGKLIK RADIO BUTTON DI MODAL SEARCH ---
         window.updateTempStatus = (memberId, status) => {
             window.tempAttendanceState[memberId] = status;
         };
 
-        // --- EDIT & SAVE PRESENSI ---
         window.openPresensiModal = (editId = null) => {
             document.getElementById('formPresensi').reset();
             document.getElementById('editPresensiId').value = "";
             document.getElementById('presensiModalTitle').innerText = "Catat Sesi Pertemuan & Presensi";
             document.getElementById('btnSubmitPresensiModal').innerText = "Simpan Sesi Presensi";
-            document.getElementById('searchModalPresensi').value = ""; // reset pencarian
+            document.getElementById('searchModalPresensi').value = ""; 
 
-            // 1. Set State Awal
             window.tempAttendanceState = {};
             dataStore.anggota.forEach(m => {
-                window.tempAttendanceState[m.id] = 'hadir'; // default state jika tambah baru
+                window.tempAttendanceState[m.id] = 'hadir'; 
             });
 
-            // 2. Jika Edit, tindih dengan status yang sudah ada
             if (editId) {
                 const item = dataStore.presensi.find(x => x.id === editId);
                 if (item) {
@@ -959,7 +955,6 @@
                 }
             }
             
-            // 3. Render berdasar state sementara
             renderModalPresensiStudents();
             document.getElementById('presensiModal').classList.remove('hide');
         };
@@ -978,7 +973,6 @@
             }
 
             container.innerHTML = filtered.map(m => {
-                // Membaca status terbaru dari Memory Temporary
                 let currentStatus = window.tempAttendanceState[m.id] || 'hadir';
 
                 return `
@@ -1008,10 +1002,7 @@
 
         window.setAllAttendanceStatus = (status) => {
             dataStore.anggota.forEach(m => {
-                // Update ke memory dulu
                 window.tempAttendanceState[m.id] = status;
-                
-                // Update Visual untuk yang sedang dirender di layar (jika lolos filter search)
                 let radio = document.querySelector(`input[name="status_${m.id}"][value="${status}"]`);
                 if(radio) radio.checked = true;
             });
@@ -1029,7 +1020,6 @@
                 return;
             }
 
-            // Menyusun hasil simpan BUKAN dari DOM HTML, tapi dari State Memory yang terlindungi Search Bar
             const pesertaList = dataStore.anggota.map(m => {
                 return {
                     id: m.id,
@@ -1283,29 +1273,39 @@
             showToast(`Berhasil menyimpan penilaian untuk ${count} siswa!`, "success");
         });
 
+        // --- MENGUBAH TAMPILAN DETAIL PRESENSI AGAR IDENTIK DENGAN PENGISIAN ---
         window.viewPresensiDetail = (presensiId) => {
             const p = dataStore.presensi.find(x => x.id === presensiId);
             if (!p) return;
             document.getElementById('detailPresensiTitle').innerText = `Pertemuan: ${p.materi}`;
             document.getElementById('detailPresensiSub').innerText = `Tanggal: ${p.tanggal}`;
+            
+            // Set action untuk tombol ekspor sesi tersebut
+            document.getElementById('btnExportDetail').setAttribute('onclick', `exportSinglePresensi('${p.id}')`);
+
             const listContainer = document.getElementById('detailPresensiList');
             
             listContainer.innerHTML = (p.pesertaList && p.pesertaList.length > 0) ? p.pesertaList.map(item => {
-                let badgeClass = 'bg-slate-100 text-slate-700';
-                let labelStatus = 'ALFA';
-                if(item.status === 'hadir') { badgeClass = 'bg-emerald-100 text-emerald-800'; labelStatus = 'HADIR'; }
-                else if(item.status === 'izin') { badgeClass = 'bg-blue-100 text-blue-800'; labelStatus = 'IZIN'; }
-                else if(item.status === 'sakit') { badgeClass = 'bg-amber-100 text-amber-800'; labelStatus = 'SAKIT'; }
-                else if(item.status === 'alpa') { badgeClass = 'bg-rose-100 text-rose-800'; labelStatus = 'ALFA'; }
+                let sH = item.status === 'hadir' ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-slate-50 text-slate-400 border-slate-200 opacity-60';
+                let sI = item.status === 'izin' ? 'bg-blue-50 text-blue-700 border-blue-300' : 'bg-slate-50 text-slate-400 border-slate-200 opacity-60';
+                let sS = item.status === 'sakit' ? 'bg-amber-50 text-amber-700 border-amber-300' : 'bg-slate-50 text-slate-400 border-slate-200 opacity-60';
+                let sA = item.status === 'alpa' ? 'bg-rose-50 text-rose-700 border-rose-300' : 'bg-slate-50 text-slate-400 border-slate-200 opacity-60';
 
-                return `<div class="flex items-center justify-between p-2.5 rounded-xl border bg-white">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-slate-800">${item.nama}</span>
-                        <span class="text-[10px] text-slate-400">(${item.kelas})</span>
+                return `
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 gap-2">
+                        <div>
+                            <span class="text-xs font-bold text-slate-800 block">${item.nama}</span>
+                            <span class="text-[10px] text-slate-500 font-semibold">${item.kelas}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 self-end sm:self-auto">
+                            <div class="px-2 py-1 rounded text-[10px] font-bold border ${sH}">Hadir</div>
+                            <div class="px-2 py-1 rounded text-[10px] font-bold border ${sI}">Izin</div>
+                            <div class="px-2 py-1 rounded text-[10px] font-bold border ${sS}">Sakit</div>
+                            <div class="px-2 py-1 rounded text-[10px] font-bold border ${sA}">Alpa</div>
+                        </div>
                     </div>
-                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded ${badgeClass}">${labelStatus}</span>
-                </div>`;
-            }).join('') : `<p class="text-xs text-slate-400 text-center py-4">Tidak ada rincian nama.</p>`;
+                `;
+            }).join('') : `<p class="text-xs text-slate-400 text-center py-4">Tidak ada rincian kehadiran.</p>`;
             
             document.getElementById('detailPresensiModal').classList.remove('hide');
         };
@@ -1463,14 +1463,45 @@
             }
         };
 
-        window.exportAnggotaCSV = () => {
-            if (dataStore.anggota.length === 0) {
-                showToast("Tidak ada data anggota untuk diekspor", "error");
-                return;
+        // --- SISTEM EKSPOR EXCEL TERPUSAT YANG LEBIH MENARIK (SHEETJS) ---
+        function downloadExcel(dataArray, filename, title, subtitle) {
+            const wb = XLSX.utils.book_new();
+            
+            // Header Laporan
+            const headerRow1 = [title];
+            const headerRow2 = [subtitle];
+            const emptyRow = [];
+            
+            const wsData = [headerRow1, headerRow2, emptyRow];
+            
+            if (dataArray.length > 0) {
+                const colHeaders = Object.keys(dataArray[0]);
+                wsData.push(colHeaders); // Header Kolom Tabel
+                
+                dataArray.forEach(row => {
+                    const rowData = colHeaders.map(header => row[header]);
+                    wsData.push(rowData);
+                });
             }
-            let csvContent = "Nama Lengkap,Kelas,Hadir,Izin,Sakit,Alpa\n";
+
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            
+            // Merge cell untuk Judul dan Subjudul agar tampil ke tengah
+            const maxCol = dataArray.length > 0 ? Object.keys(dataArray[0]).length - 1 : 4;
+            if(!ws['!merges']) ws['!merges'] = [];
+            ws['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: maxCol } });
+            ws['!merges'].push({ s: { r: 1, c: 0 }, e: { r: 1, c: maxCol } });
+
+            XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+            XLSX.writeFile(wb, filename);
+            showToast(`File ${filename} berhasil diunduh!`, "success");
+        }
+
+        window.exportAnggotaExcel = () => {
+            if (dataStore.anggota.length === 0) return showToast("Tidak ada data anggota", "error");
             let sorted = sortAnggotaList([...dataStore.anggota]);
-            sorted.forEach(row => {
+            
+            let exportData = sorted.map((row, i) => {
                 let hadir = 0, izin = 0, sakit = 0, alpa = 0;
                 dataStore.presensi.forEach(p => {
                     if(p.pesertaList) {
@@ -1483,57 +1514,77 @@
                         }
                     }
                 });
-                csvContent += `"${row.nama}","${row.kelas}",${hadir},${izin},${sakit},${alpa}\n`;
+                return {
+                    "No": i + 1,
+                    "Nama Lengkap": row.nama,
+                    "Kelas": row.kelas,
+                    "Total Hadir": hadir,
+                    "Total Izin": izin,
+                    "Total Sakit": sakit,
+                    "Total Alpa": alpa
+                };
             });
-            downloadCSV(csvContent, "Data_Anggota_FBC.csv");
+            downloadExcel(exportData, "Data_Anggota_FBC.xlsx", "DATA ANGGOTA FOURTEEN BADMINTON CLUB", "Rekapitulasi Keanggotaan & Kehadiran Global");
         };
 
-        window.exportPresensiCSV = () => {
-            if (dataStore.presensi.length === 0) {
-                showToast("Tidak ada riwayat presensi untuk diekspor", "error");
-                return;
-            }
-            let csvContent = "Tanggal,Materi Latihan,Total Hadir,Total Izin,Total Sakit,Total Alpa\n";
-            dataStore.presensi.forEach(row => {
-                let materi = row.materi ? row.materi.replace(/"/g, '""') : "";
-                let h=0, i=0, s=0, a=0;
+        window.exportPresensiExcel = () => {
+            if (dataStore.presensi.length === 0) return showToast("Tidak ada riwayat presensi", "error");
+            
+            let exportData = dataStore.presensi.map((row, i) => {
+                let h=0, iz=0, s=0, a=0;
                 if(row.pesertaList) {
                     row.pesertaList.forEach(p => {
                         if(p.status==='hadir') h++;
-                        else if(p.status==='izin') i++;
+                        else if(p.status==='izin') iz++;
                         else if(p.status==='sakit') s++;
                         else a++;
                     });
                 }
-                csvContent += `"${row.tanggal}","${materi}",${h},${i},${s},${a}\n`;
+                return {
+                    "No": i + 1,
+                    "Tanggal": row.tanggal,
+                    "Materi Latihan": row.materi || "-",
+                    "Total Hadir": h,
+                    "Total Izin": iz,
+                    "Total Sakit": s,
+                    "Total Alpa": a
+                };
             });
-            downloadCSV(csvContent, "Riwayat_Presensi_FBC.csv");
+            downloadExcel(exportData, "Riwayat_Presensi_FBC.xlsx", "DAFTAR RIWAYAT PERTEMUAN (PRESENSI)", "Fourteen Badminton Club");
         };
 
-        window.exportNilaiCSV = () => {
-            if (dataStore.nilai.length === 0) {
-                showToast("Tidak ada data penilaian untuk diekspor", "error");
-                return;
-            }
-            let csvContent = "Nama Lengkap,Kelas,Nilai / Predikat,Deskripsi Keterangan Evaluasi\n";
-            dataStore.nilai.forEach(row => {
-                let ket = row.keterangan ? row.keterangan.replace(/"/g, '""').replace(/\n/g, ' ') : "";
-                csvContent += `"${row.nama}","${row.kelas}","${row.nilai}","${ket}"\n`;
+        window.exportNilaiExcel = () => {
+            if (dataStore.nilai.length === 0) return showToast("Tidak ada data penilaian", "error");
+            
+            let exportData = dataStore.nilai.map((row, i) => {
+                return {
+                    "No": i + 1,
+                    "Nama Lengkap": row.nama,
+                    "Kelas": row.kelas,
+                    "Nilai / Predikat": row.nilai,
+                    "Keterangan Evaluasi": row.keterangan || "-"
+                };
             });
-            downloadCSV(csvContent, "Data_Nilai_FBC.csv");
+            downloadExcel(exportData, "Data_Nilai_FBC.xlsx", "LEMBAR PENILAIAN & EVALUASI ESKUL", "Fourteen Badminton Club");
         };
 
-        function downloadCSV(content, filename) {
-            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", filename);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast(`File ${filename} berhasil diunduh!`, "success");
-        }
+        // --- EKSPOR KHUSUS SATU SESI LATIHAN DARI MODAL DETAIL ---
+        window.exportSinglePresensi = (presensiId) => {
+            const p = dataStore.presensi.find(x => x.id === presensiId);
+            if (!p || !p.pesertaList) return showToast("Data kehadiran kosong untuk sesi ini.", "error");
+            
+            let exportData = p.pesertaList.map((item, i) => {
+                let statusLabel = item.status.toUpperCase();
+                return {
+                    "No": i + 1,
+                    "Nama Siswa": item.nama,
+                    "Kelas": item.kelas,
+                    "Status Kehadiran": statusLabel
+                };
+            });
+            
+            downloadExcel(exportData, `Presensi_Latihan_${p.tanggal}.xlsx`, "DAFTAR HADIR SESI LATIHAN FBC", `Tanggal: ${p.tanggal}  |  Materi: ${p.materi}`);
+        };
 
         function showToast(msg, type="success") {
             const t = document.getElementById('toastNotif');
